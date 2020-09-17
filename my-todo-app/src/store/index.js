@@ -21,11 +21,20 @@ export default new Vuex.Store({
       state.boards.push(board);
     },
     addTile(state, tile) {
+      const index = state.boards.findIndex(
+        (elem) => elem.board_id === tile.board_id
+      );
+      state.boards[index].tiles.push(tile);
+    },
+    addCard(state, { board_id, card }) {
       state.boards
         .find((board) => {
-          board.board_id === tile.board_id;
+          board.board_id === board_id;
         })
-        .tiles.push(tile);
+        .tiles.find((tile) => {
+          tile.tile_id === card.tile_id;
+        })
+        .push(card);
     },
     updateBoard(state, board) {
       const index = state.boards.findIndex(
@@ -57,11 +66,9 @@ export default new Vuex.Store({
     },
     // Boards
     fetchBoards({ commit }) {
-      console.log("Now fetchBoards");
       axios
         .get("http://localhost:8080/api/read/boards")
         .then((responce) => {
-          console.log(responce.data);
           responce.data.forEach(function(doc) {
             commit("addBoard", doc);
           });
@@ -71,14 +78,34 @@ export default new Vuex.Store({
         });
     },
     addBoard({ commit }, board) {
-      console.log("create board data: " + board.name);
-      // var uri = "http://localhost:8080/api/create/board?" + "name=" + board.name;
+      var url = "http://localhost:8080/api/create/board";
       axios
-        // .get(uri)
-        .post("http://localhost:8080/api/create/board", board)
+        .post(url, board)
         .then((responce) => {
-          console.log("create board result: " + responce.data);
           commit("addBoard", responce.data);
+        })
+        .catch(function(error) {
+          console.log("Error getting result: ", error);
+        });
+    },
+    addTile({ commit }, tile) {
+      console.log(tile.name);
+      var url = "http://localhost:8080/api/create/tile";
+      axios
+        .post(url, tile)
+        .then((responce) => {
+          commit("addTile", responce.data);
+        })
+        .catch(function(error) {
+          console.log("Error getting result: ", error);
+        });
+    },
+    addCard({ commit }, { board_id, card }) {
+      var url = "http://localhost:8080/api/create/card";
+      axios
+        .post(url, card)
+        .then((responce) => {
+          commit("addCard", { board_id: board_id, card: responce.data });
         })
         .catch(function(error) {
           console.log("Error getting result: ", error);
