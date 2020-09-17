@@ -9,7 +9,7 @@ public class Board {
     /**
      * ボードID
      */
-    private String board_id;
+    private Integer board_id;
     /**
      * ボード名
      */
@@ -17,7 +17,7 @@ public class Board {
     /**
      * ユーザーID
      */
-    private String user_id;
+    private Integer user_id;
     /**
      * 内包するタイルの一覧
      */

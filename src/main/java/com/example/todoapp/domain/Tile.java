@@ -9,7 +9,7 @@ public class Tile {
     /**
      * タイルID
      */
-    private String tile_id;
+    private Integer tile_id;
     /**
      * タイル名
      */
@@ -17,7 +17,7 @@ public class Tile {
     /**
      * 所属するボードのID
      */
-    private String board_id;
+    private Integer board_id;
     /**
      * 内包するカードの一覧
      */

@@ -5,9 +5,8 @@
 <mapper namespace="com.example.todoapp.mapper.TileMapper">
     <insert id="create" parameterType="com.example.todoapp.domain.Tile">
         INSERT INTO
-        tiles (name)
-        VALUES ( #{name})
-        WHERE board_id = #{board_id};
+        tiles (name, board_id)
+        VALUES (#{name}, #{board_id});
     </insert>
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID();

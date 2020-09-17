@@ -7,7 +7,7 @@ public class Card {
     /**
      * カードID
      */
-    private String card_id;
+    private Integer card_id;
     /**
      * カード名
      */
@@ -15,5 +15,5 @@ public class Card {
     /**
      * 所属するタイルのID
      */
-    private String tile_id;
+    private Integer tile_id;
 }

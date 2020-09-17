@@ -46,7 +46,7 @@ public class TodoController {
      * @param card ┗必須フィールド：name, tile_id
      * @return idが付与されたcardを返す
      */
-    @PostMapping("/create/tile")
+    @PostMapping("/create/card")
     public Card createCard(@RequestBody Card card) {
         return todoService.create(card);
     }

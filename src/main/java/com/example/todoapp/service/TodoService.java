@@ -29,20 +29,20 @@ public class TodoService {
     public Board create(Board board) {
         boardMapper.create(board);
         Integer id = boardMapper.getLastInsertId();
-        board.setBoard_id(id.toString());
+        board.setBoard_id(id);
         return board;
     }
 
     public Tile create(Tile tile) {
         tileMapper.create(tile);
         Integer id = tileMapper.getLastInsertId();
-        tile.setTile_id(id.toString());
+        tile.setTile_id(id);
         return tile;
     }
     public Card create(Card card) {
         cardMapper.create(card);
         Integer id = cardMapper.getLastInsertId();
-        card.setTile_id(id.toString());
+        card.setTile_id(id);
         return card;
     }
 }

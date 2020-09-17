@@ -9,8 +9,10 @@
         boa.name as board_name,
         til.tile_id as tile_id,
         til.name as tile_name,
+        til.board_id as tile_board_id,
         car.card_id as card_id,
-        car.name as card_name
+        car.name as card_name,
+        car.tile_id as card_tile_id
 
         FROM boards as boa
         LEFT JOIN tiles as til
@@ -33,9 +35,11 @@
         <collection property="tiles" ofType="com.example.todoapp.domain.Tile">
             <result property="tile_id" column="tile_id"/>
             <result property="name" column="tile_name"/>
+            <result property="board_id" column="tile_board_id"/>
             <collection property="cards" ofType="com.example.todoapp.domain.Card">
                 <result property="card_id" column="card_id"/>
                 <result property="name" column="card_name"/>
+                <result property="tile_id" column="card_tile_id"/>
             </collection>
         </collection>
     </resultMap>
