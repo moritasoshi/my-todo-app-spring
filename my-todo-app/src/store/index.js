@@ -20,6 +20,13 @@ export default new Vuex.Store({
     addBoard(state, board) {
       state.boards.push(board);
     },
+    addTile(state, tile) {
+      state.boards
+        .find((board) => {
+          board.board_id === tile.board_id;
+        })
+        .tiles.push(tile);
+    },
     updateBoard(state, board) {
       const index = state.boards.findIndex(
         (elem) => elem.board_id === board.board_id
@@ -60,35 +67,21 @@ export default new Vuex.Store({
           });
         })
         .catch(function(error) {
-          console.log("Error getting documents: ", error);
+          console.log("Error getting data: ", error);
         });
-      // firebase
-      //   .firestore()
-      //   .collection("users")
-      //   .doc(getters.uid)
-      //   .collection("boards")
-      //   .get()
-      //   .then((querySnapshot) => {
-      //     querySnapshot.forEach(function(doc) {
-      //       commit("addBoard", { id: doc.id, board: doc.data() });
-      //     });
-      //   })
-      //   .catch(function(error) {
-      //     console.log("Error getting documents: ", error);
-      //   });
     },
-    addBoard({ getters, commit }, board) {
-      firebase
-        .firestore()
-        .collection("users")
-        .doc(getters.uid)
-        .collection("boards")
-        .add(board)
-        .then(function(doc) {
-          commit("addBoard", { id: doc.id, board: board });
+    addBoard({ commit }, board) {
+      console.log("create board data: " + board.name);
+      // var uri = "http://localhost:8080/api/create/board?" + "name=" + board.name;
+      axios
+        // .get(uri)
+        .post("http://localhost:8080/api/create/board", board)
+        .then((responce) => {
+          console.log("create board result: " + responce.data);
+          commit("addBoard", responce.data);
         })
         .catch(function(error) {
-          console.log("Error getting documents: ", error);
+          console.log("Error getting result: ", error);
         });
     },
     updateBoard({ getters, commit }, board) {

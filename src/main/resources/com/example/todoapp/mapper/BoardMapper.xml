@@ -19,25 +19,23 @@
         on car.tile_id = til.tile_id
         WHERE boa.user_id = #{userId}
     </select>
-    <select id="create" resultType="int" parameterType="com.example.todoapp.domain.Board">
+    <insert id="create" parameterType="com.example.todoapp.domain.Board">
         INSERT INTO
-        boards
-        (name, user_id)
-        VALUES
-        (
-        #{name}, #{user_id}
-        );
+        boards (name, user_id)
+        VALUES ( #{name}, 1);
+    </insert>
+    <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID();
     </select>
     <resultMap id="findAllByUserIdResult" type="com.example.todoapp.domain.Board">
-        <id property="board_id" column="board_id" />
-        <result property="name" column="board_name" />
+        <id property="board_id" column="board_id"/>
+        <result property="name" column="board_name"/>
         <collection property="tiles" ofType="com.example.todoapp.domain.Tile">
-            <result property="tile_id" column="tile_id" />
-            <result property="name" column="tile_name" />
+            <result property="tile_id" column="tile_id"/>
+            <result property="name" column="tile_name"/>
             <collection property="cards" ofType="com.example.todoapp.domain.Card">
-                <result property="card_id" column="card_id" />
-                <result property="name" column="card_name" />
+                <result property="card_id" column="card_id"/>
+                <result property="name" column="card_name"/>
             </collection>
         </collection>
     </resultMap>

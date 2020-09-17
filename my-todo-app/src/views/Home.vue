@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <h2>Your boards</h2>
-    {{this.$store.state.login_user}}
     <v-container class="d-flex">
       <v-card
         v-for="(board, index) in boards"
@@ -77,10 +76,8 @@ export default {
   },
   data() {
     return {
-      results: [],
       newBoard: {
         name: null,
-        tiles: [],
       },
     };
   },
@@ -96,7 +93,6 @@ export default {
       // 初期化
       this.newBoard = {
         name: null,
-        tiles: [],
       };
     },
     ...mapActions(["addBoard"]),
