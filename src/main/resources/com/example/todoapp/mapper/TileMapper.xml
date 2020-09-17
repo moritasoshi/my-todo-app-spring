@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.todoapp.mapper.TileMapper">
+    <insert id="create" parameterType="com.example.todoapp.domain.Tile">
+        INSERT INTO
+        tiles (name)
+        VALUES ( #{name})
+        WHERE board_id = #{board_id};
+    </insert>
+    <select id="getLastInsertId" resultType="int">
+        SELECT LAST_INSERT_ID();
+    </select>
+</mapper>
