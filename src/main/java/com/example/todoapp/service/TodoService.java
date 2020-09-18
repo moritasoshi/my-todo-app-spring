@@ -63,7 +63,15 @@ public class TodoService {
     }
 
     public Board delete(Board board) {
+        // delete board
         boardMapper.delete(board);
+        // delete tiles
+        board.getTiles()
+                .forEach(tile -> tileMapper.delete(tile));
+        // delete cards
+        board.getTiles().stream()
+                .flatMap(tile -> tile.getCards().stream()) // 全ての"tile"からカードリストを取得し新たなList<Card>を作成
+                .forEach(card -> cardMapper.delete(card));
         return board;
     }
 
