@@ -100,7 +100,7 @@
                       showCard({
                         cardId: card.card_id,
                         cardName: card.name,
-                        tileName: tile.name,
+                        tileId: tile.tile_id,
                       })
                     "
                   >
@@ -262,9 +262,9 @@ export default {
         board_id: null,
       },
       targetCard: {
-        id: "",
-        name: "",
-        tileName: "",
+        card_id: null,
+        name: null,
+        tile_id: null,
       },
 
       newTile: {
@@ -288,6 +288,7 @@ export default {
     this.board = this.$store.getters.getBoardByName(this.slug);
   },
   methods: {
+    // Show when edit buttons pushed
     showBoard() {
       this.boardShow = !this.boardShow;
     },
@@ -295,13 +296,15 @@ export default {
       this.tileShow = !this.tileShow;
       this.targetTile.tile_id = tileId;
       this.targetTile.name = tileName;
+      this.targetTile.board_id = this.board.board_id;
     },
-    showCard({ cardId, cardName, tileName }) {
+    showCard({ cardId, cardName, tileId }) {
       this.cardShow = !this.cardShow;
-      this.targetCard.id = cardId;
+      this.targetCard.card_id = cardId;
       this.targetCard.name = cardName;
-      this.targetCard.tileName = tileName;
+      this.targetCard.tile_id = tileId;
     },
+    // Edits
     editBoard() {
       this.board.name = this.targetBoardName;
       this.$store.dispatch("updateBoard", this.board);
@@ -313,25 +316,19 @@ export default {
       this.boardShow = false;
     },
     editTile() {
-      this.targetTile.board_id = this.board.board_id;
       this.$store.dispatch("updateTile", this.targetTile);
       this.targetTile = {};
       this.tileShow = false;
     },
     editCard() {
-      this.board.tiles
-        .find((tile) => tile.name === this.targetCard.tileName)
-        .cards.find(
-          (card) => card.id === this.targetCard.id
-        ).name = this.targetCard.name;
-      this.updateBoard(this.board);
-      this.targetCard = {
-        id: "",
-        name: "",
-        tileName: "",
-      };
+      this.$store.dispatch("updateCard", {
+        board_id: this.board.board_id,
+        card: this.targetCard,
+      });
+      this.targetCard = {};
       this.cardShow = false;
     },
+    // Adds
     addTile() {
       this.newTile.board_id = this.board.board_id;
       this.$store.dispatch("addTile", this.newTile);

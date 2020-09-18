@@ -41,6 +41,12 @@ export default new Vuex.Store({
         .find((elem) => elem.board_id === tile.board_id)
         .tiles.find((elem) => elem.tile_id === tile.tile_id).name = tile.name;
     },
+    updateCard(state, { board_id, card }) {
+      state.boards
+        .find((elem) => elem.board_id === board_id)
+        .tiles.find((elem) => elem.tile_id === card.tile_id)
+        .cards.find((elem) => elem.card_id === card.card_id).name = card.name;
+    },
     deleteBoard(state, board) {
       const index = state.boards.findIndex(
         (elem) => elem.board_id === board.board_id
@@ -76,6 +82,7 @@ export default new Vuex.Store({
           console.log("Error getting data: ", error);
         });
     },
+    // Adds
     addBoard({ commit }, board) {
       var url = "http://localhost:8080/api/create/board";
       axios
@@ -109,6 +116,7 @@ export default new Vuex.Store({
           console.log("Error getting result: ", error);
         });
     },
+    // Updates
     updateBoard({ commit }, board) {
       var url = "http://localhost:8080/api/update/board";
       axios
@@ -126,6 +134,17 @@ export default new Vuex.Store({
         .post(url, tile)
         .then((responce) => {
           commit("updateTile", responce.data);
+        })
+        .catch(function(error) {
+          console.log("Error getting results: ", error);
+        });
+    },
+    updateCard({ commit }, { board_id, card }) {
+      var url = "http://localhost:8080/api/update/card";
+      axios
+        .post(url, card)
+        .then((responce) => {
+          commit("updateCard", { board_id: board_id, card: responce.data });
         })
         .catch(function(error) {
           console.log("Error getting results: ", error);
