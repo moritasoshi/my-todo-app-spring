@@ -257,8 +257,9 @@ export default {
       cardShow: false,
       targetBoardName: "",
       targetTile: {
-        id: "",
-        name: "",
+        tile_id: null,
+        name: null,
+        board_id: null,
       },
       targetCard: {
         id: "",
@@ -292,7 +293,7 @@ export default {
     },
     showTile({ tileId, tileName }) {
       this.tileShow = !this.tileShow;
-      this.targetTile.id = tileId;
+      this.targetTile.tile_id = tileId;
       this.targetTile.name = tileName;
     },
     showCard({ cardId, cardName, tileName }) {
@@ -312,14 +313,9 @@ export default {
       this.boardShow = false;
     },
     editTile() {
-      this.board.tiles.find(
-        (tile) => tile.id === this.targetTile.id
-      ).name = this.targetTile.name;
-      this.updateBoard(this.board);
-      this.targetTile = {
-        id: "",
-        name: "",
-      };
+      this.targetTile.board_id = this.board.board_id;
+      this.$store.dispatch("updateTile", this.targetTile);
+      this.targetTile = {};
       this.tileShow = false;
     },
     editCard() {

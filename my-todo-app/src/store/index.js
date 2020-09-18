@@ -36,6 +36,11 @@ export default new Vuex.Store({
       state.boards.find((elem) => elem.board_id === board.board_id).name =
         board.name;
     },
+    updateTile(state, tile) {
+      state.boards
+        .find((elem) => elem.board_id === tile.board_id)
+        .tiles.find((elem) => elem.tile_id === tile.tile_id).name = tile.name;
+    },
     deleteBoard(state, board) {
       const index = state.boards.findIndex(
         (elem) => elem.board_id === board.board_id
@@ -110,6 +115,17 @@ export default new Vuex.Store({
         .post(url, board)
         .then((responce) => {
           commit("updateBoard", responce.data);
+        })
+        .catch(function(error) {
+          console.log("Error getting results: ", error);
+        });
+    },
+    updateTile({ commit }, tile) {
+      var url = "http://localhost:8080/api/update/tile";
+      axios
+        .post(url, tile)
+        .then((responce) => {
+          commit("updateTile", responce.data);
         })
         .catch(function(error) {
           console.log("Error getting results: ", error);
