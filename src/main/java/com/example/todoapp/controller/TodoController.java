@@ -16,6 +16,10 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
+    /////////////////////////////
+    //// read
+    /////////////////////////////
+
     /**
      * @return 任意のユーザーのボード情報
      */
@@ -23,6 +27,11 @@ public class TodoController {
     public List<Board> boards() {
         return todoService.findAllBoard(1);
     }
+
+
+    /////////////////////////////
+    //// create
+    /////////////////////////////
 
     /**
      * @param board ┗必須フィールド：name
@@ -52,6 +61,10 @@ public class TodoController {
     }
 
 
+    /////////////////////////////
+    //// update
+    /////////////////////////////
+
     /**
      * @param board ┗必須フィールド：name, board_id
      * @return引数のboardを返す
@@ -79,4 +92,34 @@ public class TodoController {
         return todoService.update(card);
     }
 
+    /////////////////////////////
+    //// delete
+    /////////////////////////////
+
+    /**
+     * @param board ┗必須フィールド：name, board_id
+     * @return引数のboardを返す
+     */
+    @PostMapping("/delete/board")
+    public Board deleteBoard(@RequestBody Board board) {
+        return todoService.delete(board);
+    }
+
+    /**
+     * @param tile ┗必須フィールド：name, tile_id
+     * @return引数のtileを返す
+     */
+    @PostMapping("/delete/tile")
+    public Tile deleteTile(@RequestBody Tile tile) {
+        return todoService.delete(tile);
+    }
+
+    /**
+     * @param card ┗必須フィールド：name, card_id
+     * @return 引数のcardを返す
+     */
+    @PostMapping("/delete/card")
+    public Card deleteCard(@RequestBody Card card) {
+        return todoService.delete(card);
+    }
 }

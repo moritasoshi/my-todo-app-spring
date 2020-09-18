@@ -36,4 +36,11 @@ public interface BoardMapper {
      * @param board
      */
     void update(Board board);
+
+    /**
+     * ボードを削除する
+     *
+     * @param board
+     */
+    void delete(Board board);
 }

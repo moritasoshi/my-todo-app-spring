@@ -19,4 +19,11 @@
         WHERE
         card_id = #{card_id}
     </update>
+    <delete id="delete" parameterType="com.example.todoapp.domain.Card">
+        DELETE
+        FROM
+        cards
+        WHERE
+        card_id = #{card_id}
+    </delete>
 </mapper>

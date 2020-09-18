@@ -25,4 +25,10 @@ public interface TileMapper {
      * @param tile
      */
     void update(Tile tile);
+
+    /**
+     * Tileの削除
+     * @param tile
+     */
+    void delete(Tile tile);
 }

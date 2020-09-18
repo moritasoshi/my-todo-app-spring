@@ -61,4 +61,19 @@ public class TodoService {
         cardMapper.update(card);
         return card;
     }
+
+    public Board delete(Board board) {
+        boardMapper.delete(board);
+        return board;
+    }
+
+    public Tile delete(Tile tile) {
+        tileMapper.delete(tile);
+        return tile;
+    }
+
+    public Card delete(Card card) {
+        cardMapper.delete(card);
+        return card;
+    }
 }

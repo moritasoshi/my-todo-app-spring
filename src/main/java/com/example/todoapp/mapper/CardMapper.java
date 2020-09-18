@@ -25,4 +25,11 @@ public interface CardMapper {
      * @param card
      */
     void update(Card card);
+
+    /**
+     * カードの削除
+     *
+     * @param card
+     */
+    void delete(Card card);
 }

@@ -19,4 +19,11 @@
         WHERE
         tile_id = #{tile_id}
     </update>
+    <delete id="delete" parameterType="com.example.todoapp.domain.Tile">
+        DELETE
+        FROM
+        tiles
+        WHERE
+        tile_id = #{tile_id}
+    </delete>
 </mapper>
