@@ -39,10 +39,26 @@ public class TodoService {
         tile.setTile_id(id);
         return tile;
     }
+
     public Card create(Card card) {
         cardMapper.create(card);
         Integer id = cardMapper.getLastInsertId();
-        card.setTile_id(id);
+        card.setCard_id(id);
+        return card;
+    }
+
+    public Board update(Board board) {
+        boardMapper.update(board);
+        return board;
+    }
+
+    public Tile update(Tile tile) {
+        tileMapper.update(tile);
+        return tile;
+    }
+
+    public Card update(Card card) {
+        cardMapper.update(card);
         return card;
     }
 }

@@ -29,4 +29,11 @@ public interface BoardMapper {
      * @return 自動採番されたid
      */
     Integer getLastInsertId();
+
+    /**
+     * ボード名を変更する
+     *
+     * @param board
+     */
+    void update(Board board);
 }

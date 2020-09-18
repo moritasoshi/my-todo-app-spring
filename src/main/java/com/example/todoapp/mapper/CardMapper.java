@@ -18,4 +18,11 @@ public interface CardMapper {
      * @return 自動採番されたid
      */
     Integer getLastInsertId();
+
+    /**
+     * カード名の編集
+     *
+     * @param card
+     */
+    void update(Card card);
 }

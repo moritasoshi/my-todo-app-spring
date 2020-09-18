@@ -19,4 +19,10 @@ public interface TileMapper {
      * @return 自動採番されたid
      */
     Integer getLastInsertId();
+
+    /**
+     * Tile名の変更
+     * @param tile
+     */
+    void update(Tile tile);
 }

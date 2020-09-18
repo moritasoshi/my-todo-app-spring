@@ -29,6 +29,15 @@
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID();
     </select>
+    <update id="update" parameterType="com.example.todoapp.domain.Board">
+        update
+        boards
+        set
+        name = #{name}
+        WHERE
+        board_id = #{board_id}
+    </update>
+
     <resultMap id="findAllByUserIdResult" type="com.example.todoapp.domain.Board">
         <id property="board_id" column="board_id"/>
         <result property="name" column="board_name"/>

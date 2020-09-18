@@ -19,7 +19,7 @@ public class TodoController {
     /**
      * @return 任意のユーザーのボード情報
      */
-    @RequestMapping("/read/boards")
+    @GetMapping("/read/boards")
     public List<Board> boards() {
         return todoService.findAllBoard(1);
     }
@@ -49,6 +49,34 @@ public class TodoController {
     @PostMapping("/create/card")
     public Card createCard(@RequestBody Card card) {
         return todoService.create(card);
+    }
+
+
+    /**
+     * @param board ┗必須フィールド：name, board_id
+     * @return引数のboardを返す
+     */
+    @PostMapping("/update/board")
+    public Board updateBoard(@RequestBody Board board) {
+        return todoService.update(board);
+    }
+
+    /**
+     * @param tile ┗必須フィールド：name, tile_id
+     * @return引数のtileを返す
+     */
+    @PostMapping("/update/tile")
+    public Tile updateTile(@RequestBody Tile tile) {
+        return todoService.update(tile);
+    }
+
+    /**
+     * @param card ┗必須フィールド：name, card_id
+     * @return 引数のcardを返す
+     */
+    @PostMapping("/update/card")
+    public Card updateCard(@RequestBody Card card) {
+        return todoService.update(card);
     }
 
 }

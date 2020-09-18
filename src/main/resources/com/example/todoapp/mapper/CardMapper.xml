@@ -5,11 +5,18 @@
 <mapper namespace="com.example.todoapp.mapper.CardMapper">
     <insert id="create" parameterType="com.example.todoapp.domain.Card">
         INSERT INTO
-        cards (name)
-        VALUES ( #{name})
-        WHERE tile_id = #{tile_id};
+        cards (name, tile_id)
+        VALUES (#{name}, #{tile_id});
     </insert>
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID();
     </select>
+    <update id="update" parameterType="com.example.todoapp.domain.Card">
+        UPDATE
+        cards
+        SET
+        name = #{name}
+        WHERE
+        card_id = #{card_id}
+    </update>
 </mapper>

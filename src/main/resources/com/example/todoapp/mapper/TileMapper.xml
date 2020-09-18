@@ -11,4 +11,12 @@
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID();
     </select>
+    <update id="update" parameterType="com.example.todoapp.domain.Tile">
+        UPDATE
+        tiles
+        SET
+        name = #{name}
+        WHERE
+        tile_id = #{tile_id}
+    </update>
 </mapper>
