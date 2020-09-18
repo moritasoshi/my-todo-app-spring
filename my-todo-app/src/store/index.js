@@ -28,19 +28,13 @@ export default new Vuex.Store({
     },
     addCard(state, { board_id, card }) {
       state.boards
-        .find((board) => {
-          board.board_id === board_id;
-        })
-        .tiles.find((tile) => {
-          tile.tile_id === card.tile_id;
-        })
-        .push(card);
+        .find((elem) => elem.board_id === board_id)
+        .tiles.find((elem) => elem.tile_id === card.tile_id)
+        .cards.push(card);
     },
     updateBoard(state, board) {
-      const index = state.boards.findIndex(
-        (elem) => elem.board_id === board.board_id
-      );
-      state.boards[index] = board;
+      state.boards.find((elem) => elem.board_id === board.board_id).name =
+        board.name;
     },
     deleteBoard(state, board) {
       const index = state.boards.findIndex(
@@ -89,7 +83,6 @@ export default new Vuex.Store({
         });
     },
     addTile({ commit }, tile) {
-      console.log(tile.name);
       var url = "http://localhost:8080/api/create/tile";
       axios
         .post(url, tile)
@@ -111,19 +104,15 @@ export default new Vuex.Store({
           console.log("Error getting result: ", error);
         });
     },
-    updateBoard({ getters, commit }, board) {
-      firebase
-        .firestore()
-        .collection("users")
-        .doc(getters.uid)
-        .collection("boards")
-        .doc(board.board_id)
-        .set(board)
-        .then(function() {
-          commit("updateBoard", board);
+    updateBoard({ commit }, board) {
+      var url = "http://localhost:8080/api/update/board";
+      axios
+        .post(url, board)
+        .then((responce) => {
+          commit("updateBoard", responce.data);
         })
         .catch(function(error) {
-          console.log("Error getting documents: ", error);
+          console.log("Error getting results: ", error);
         });
     },
     deleteBoard({ commit, getters }, board) {

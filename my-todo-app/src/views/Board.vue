@@ -121,7 +121,7 @@
               </v-card-actions>
             </v-card>
           </draggable>
-          <v-btn @click="addCard(tile.name)">Add</v-btn>
+          <v-btn @click="addCard(tile.tile_id)">Add</v-btn>
         </v-container>
       </v-card>
       <!-- リスト追加 -->
@@ -302,8 +302,8 @@ export default {
       this.targetCard.tileName = tileName;
     },
     editBoard() {
-      this.board.board_name = this.targetBoardName;
-      this.updateBoard(this.board);
+      this.board.name = this.targetBoardName;
+      this.$store.dispatch("updateBoard", this.board);
       this.$router.push({
         name: "board",
         params: { slug: this.targetBoardName },
@@ -344,15 +344,17 @@ export default {
         cards: [],
       };
     },
-    addCard(tileName) {
-      this.newCard.id = this.uuid();
-      this.board.tiles
-        .find((tile) => tile.name === tileName)
-        .cards.push(this.newCard);
+    addCard(tileId) {
+      this.newCard.tile_id = tileId;
+      this.$store.dispatch("addCard", {
+        board_id: this.board.board_id,
+        card: this.newCard,
+      });
+      // 初期化
       this.newCard = {
         name: "new card",
+        tile_id: null,
       };
-      this.updateBoard(this.board);
     },
 
     deleteThisBoard() {
