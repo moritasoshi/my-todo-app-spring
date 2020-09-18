@@ -8,7 +8,7 @@
         </v-btn>
       </template>
       <template>
-        <v-btn icon @click="deleteThisBoard">
+        <v-btn icon @click="deleteBoard">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </template>
@@ -349,8 +349,7 @@ export default {
         tile_id: null,
       };
     },
-
-    deleteThisBoard() {
+    deleteBoard() {
       alert(
         this.board.board_name +
           " : 現在のボードを削除してもよろしいですか？\n※このリスト内の全てのリスト・カードも削除されます"
@@ -386,7 +385,7 @@ export default {
         return v.toString(16);
       });
     },
-    ...mapActions(["updateBoard", "deleteBoard"]),
+    ...mapActions(["updateBoard"]),
   },
 };
 </script>

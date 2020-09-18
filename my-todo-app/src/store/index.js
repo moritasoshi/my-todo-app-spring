@@ -150,20 +150,16 @@ export default new Vuex.Store({
           console.log("Error getting results: ", error);
         });
     },
-    deleteBoard({ commit, getters }, board) {
-      firebase
-        .firestore()
-        .collection("users")
-        .doc(getters.uid)
-        .collection("boards")
-        .doc(board.board_id)
-        .delete()
-        .then(function() {
-          console.log("Document successfully deleted!");
-          commit("deleteBoard", board);
+    // Deletes
+    deleteBoard({ commit }, board) {
+      var url = "http://localhost:8080/api/delete/board";
+      axios
+        .post(url, board)
+        .then((responce) => {
+          commit("deleteBoard", responce.data);
         })
         .catch(function(error) {
-          console.error("Error removing document: ", error);
+          console.log("Error getting results: ", error);
         });
     },
   },
