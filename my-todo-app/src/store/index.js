@@ -72,7 +72,7 @@ export default new Vuex.Store({
       );
       const cardIndex = state.boards[boardIndex].tiles[
         tileIndex
-      ].cards.findIndex((elem) => (elem.card_id === card.card_id));
+      ].cards.findIndex((elem) => elem.card_id === card.card_id);
 
       state.boards[boardIndex].tiles[tileIndex].cards.splice(cardIndex, 1);
     },
@@ -93,9 +93,14 @@ export default new Vuex.Store({
       commit("deleteLoginUser");
     },
     // Boards
-    fetchBoards({ commit }) {
+    fetchBoards({ commit, getters }) {
+      const url = "http://localhost:8080/api/read/boards";
       axios
-        .get("http://localhost:8080/api/read/boards")
+        .get(url, {
+          params: {
+            user_uid: getters.uid,
+          },
+        })
         .then((responce) => {
           responce.data.forEach(function(doc) {
             commit("addBoard", doc);
@@ -107,7 +112,7 @@ export default new Vuex.Store({
     },
     // Adds
     addBoard({ commit }, board) {
-      var url = "http://localhost:8080/api/create/board";
+      const url = "http://localhost:8080/api/create/board";
       axios
         .post(url, board)
         .then((responce) => {
@@ -118,7 +123,7 @@ export default new Vuex.Store({
         });
     },
     addTile({ commit }, tile) {
-      var url = "http://localhost:8080/api/create/tile";
+      const url = "http://localhost:8080/api/create/tile";
       axios
         .post(url, tile)
         .then((responce) => {
@@ -129,7 +134,7 @@ export default new Vuex.Store({
         });
     },
     addCard({ commit }, { board_id, card }) {
-      var url = "http://localhost:8080/api/create/card";
+      const url = "http://localhost:8080/api/create/card";
       axios
         .post(url, card)
         .then((responce) => {
@@ -141,7 +146,7 @@ export default new Vuex.Store({
     },
     // Updates
     updateBoard({ commit }, board) {
-      var url = "http://localhost:8080/api/update/board";
+      const url = "http://localhost:8080/api/update/board";
       axios
         .post(url, board)
         .then((responce) => {
@@ -152,7 +157,7 @@ export default new Vuex.Store({
         });
     },
     updateTile({ commit }, tile) {
-      var url = "http://localhost:8080/api/update/tile";
+      const url = "http://localhost:8080/api/update/tile";
       axios
         .post(url, tile)
         .then((responce) => {
@@ -163,7 +168,7 @@ export default new Vuex.Store({
         });
     },
     updateCard({ commit }, { board_id, card }) {
-      var url = "http://localhost:8080/api/update/card";
+      const url = "http://localhost:8080/api/update/card";
       axios
         .post(url, card)
         .then((responce) => {
@@ -175,7 +180,7 @@ export default new Vuex.Store({
     },
     // Deletes
     deleteBoard({ commit }, board) {
-      var url = "http://localhost:8080/api/delete/board";
+      const url = "http://localhost:8080/api/delete/board";
       axios
         .post(url, board)
         .then((responce) => {
@@ -186,7 +191,7 @@ export default new Vuex.Store({
         });
     },
     deleteTile({ commit }, tile) {
-      var url = "http://localhost:8080/api/delete/tile";
+      const url = "http://localhost:8080/api/delete/tile";
       axios
         .post(url, tile)
         .then((responce) => {
@@ -197,7 +202,7 @@ export default new Vuex.Store({
         });
     },
     deleteCard({ commit }, { board_id, card }) {
-      var url = "http://localhost:8080/api/delete/card";
+      const url = "http://localhost:8080/api/delete/card";
       axios
         .post(url, card)
         .then(() => {

@@ -20,7 +20,7 @@
         on til.board_id = boa.board_id
         LEFT JOIN cards as car
         on car.tile_id = til.tile_id
-        WHERE boa.user_uid = #{userId}
+        WHERE boa.user_uid = #{user_uid}
     </select>
     <insert id="create" parameterType="com.example.todoapp.domain.Board">
         INSERT INTO

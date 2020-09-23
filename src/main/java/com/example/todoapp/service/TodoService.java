@@ -22,8 +22,8 @@ public class TodoService {
     @Autowired
     private CardMapper cardMapper;
 
-    public List<Board> findAllBoard(Integer userId) {
-        return boardMapper.findAllByUserId(userId);
+    public List<Board> findAllBoard(String user_uid) {
+        return boardMapper.findAllByUserId(user_uid);
     }
 
     public Board create(Board board) {

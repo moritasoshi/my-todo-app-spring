@@ -11,10 +11,10 @@ public interface BoardMapper {
     /**
      * 任意のユーザーのボードをリストで返す
      *
-     * @param userId
+     * @param user_uid
      * @return 任意のユーザーのボード一覧を返す
      */
-    List<Board> findAllByUserId(int userId);
+    List<Board> findAllByUserId(String user_uid);
 
     /**
      * user_idをもとにboardを新規作成する

@@ -24,8 +24,8 @@ public class TodoController {
      * @return 任意のユーザーのボード情報
      */
     @GetMapping("/read/boards")
-    public List<Board> boards() {
-        return todoService.findAllBoard(1);
+    public List<Board> boards( String user_uid) {
+        return todoService.findAllBoard(user_uid);
     }
 
 
