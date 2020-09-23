@@ -325,14 +325,16 @@ export default {
       };
     },
     deleteBoard() {
-      alert(
+      const isDelete = window.confirm(
         this.board.board_name +
           " : 現在のボードを削除してもよろしいですか？\n※このリスト内の全てのリスト・カードも削除されます"
       );
-      this.$store.dispatch("deleteBoard", this.board);
-      this.$router.push({
-        name: "home",
-      });
+      if (isDelete) {
+        this.$store.dispatch("deleteBoard", this.board);
+        this.$router.push({
+          name: "home",
+        });
+      }
     },
     deleteTile({ tileId }) {
       const tileIndex = this.board.tiles.findIndex(
@@ -348,12 +350,14 @@ export default {
     },
     deleteCard({ tileId, cardId }) {
       const tileIndex = this.board.tiles.findIndex(
-        (tile) => tile.id === tileId
+        (tile) => tile.tile_id === tileId
       );
       const cardIndex = this.board.tiles[tileIndex].cards.findIndex(
-        (card) => card.id === cardId
+        (card) => card.card_id === cardId
       );
-      this.board.tiles[tileIndex].cards.splice(cardIndex, 1);
+      const boardId = this.board.board_id;
+      const card = this.board.tiles[tileIndex].cards[cardIndex];
+      this.$store.dispatch("deleteCard", { board_id: boardId, card: card });
     },
     uuid() {
       return "xxxxxxxxxxxxxxxxxx".replace(/[xy]/g, (c) => {

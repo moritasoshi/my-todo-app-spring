@@ -63,6 +63,19 @@ export default new Vuex.Store({
 
       state.boards[boardIndex].tiles.splice(tileIndex, 1);
     },
+    deleteCard(state, { board_id, card }) {
+      const boardIndex = state.boards.findIndex(
+        (elem) => elem.board_id === board_id
+      );
+      const tileIndex = state.boards[boardIndex].tiles.findIndex(
+        (elem) => elem.tile_id === card.tile_id
+      );
+      const cardIndex = state.boards[boardIndex].tiles[
+        tileIndex
+      ].cards.findIndex((elem) => (elem.card_id === card.card_id));
+
+      state.boards[boardIndex].tiles[tileIndex].cards.splice(cardIndex, 1);
+    },
   },
   actions: {
     // Firebase Authentication
@@ -178,6 +191,17 @@ export default new Vuex.Store({
         .post(url, tile)
         .then((responce) => {
           commit("deleteTile", responce.data);
+        })
+        .catch(function(error) {
+          console.log("Error getting results: ", error);
+        });
+    },
+    deleteCard({ commit }, { board_id, card }) {
+      var url = "http://localhost:8080/api/delete/card";
+      axios
+        .post(url, card)
+        .then(() => {
+          commit("deleteCard", { board_id: board_id, card: card });
         })
         .catch(function(error) {
           console.log("Error getting results: ", error);
