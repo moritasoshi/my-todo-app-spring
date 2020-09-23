@@ -30,8 +30,6 @@ export default {
         this.fetchBoards();
       } else {
         this.deleteLoginUser();
-        this.fetchBoards();
-
         this.$router.push({ name: "home" }, () => {});
       }
     });

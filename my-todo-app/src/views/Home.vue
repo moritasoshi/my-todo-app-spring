@@ -89,11 +89,13 @@ export default {
   },
   methods: {
     createNewBoard() {
-      this.addBoard(this.newBoard);
+      const uid = this.$store.getters.uid;
+      if (uid) {
+        this.newBoard.user_uid = uid;
+        this.addBoard(this.newBoard);
+        this.newBoard = {};
+      }
       // 初期化
-      this.newBoard = {
-        name: null,
-      };
     },
     ...mapActions(["addBoard"]),
   },

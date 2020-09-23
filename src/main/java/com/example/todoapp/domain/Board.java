@@ -15,9 +15,9 @@ public class Board {
      */
     private String name;
     /**
-     * ユーザーID
+     * ユーザーUID
      */
-    private Integer user_id;
+    private String user_uid;
     /**
      * 内包するタイルの一覧
      */
