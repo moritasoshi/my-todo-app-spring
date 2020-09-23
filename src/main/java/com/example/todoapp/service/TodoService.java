@@ -76,7 +76,11 @@ public class TodoService {
     }
 
     public Tile delete(Tile tile) {
+        // delete tiles
         tileMapper.delete(tile);
+        // delete cards
+        tile.getCards()
+                .forEach(card -> cardMapper.delete(card));
         return tile;
     }
 
