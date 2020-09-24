@@ -326,7 +326,7 @@ export default {
     },
     deleteBoard() {
       const isDelete = window.confirm(
-        this.board.board_name +
+        this.board.name +
           " : 現在のボードを削除してもよろしいですか？\n※このリスト内の全てのリスト・カードも削除されます"
       );
       if (isDelete) {
