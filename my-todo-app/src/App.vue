@@ -30,6 +30,7 @@ export default {
         this.fetchBoards();
       } else {
         this.deleteLoginUser();
+        this.deleteBoards();
         this.$router.push({ name: "home" }, () => {});
       }
     });
@@ -38,7 +39,13 @@ export default {
     //
   }),
   methods: {
-    ...mapActions(["fetchBoards", "setLoginUser", "logout", "deleteLoginUser"]),
+    ...mapActions([
+      "fetchBoards",
+      "setLoginUser",
+      "logout",
+      "deleteLoginUser",
+      "deleteBoards",
+    ]),
   },
 };
 </script>

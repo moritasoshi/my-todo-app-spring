@@ -17,6 +17,9 @@ export default new Vuex.Store({
     deleteLoginUser(state) {
       state.login_user = null;
     },
+    deleteBoards(state) {
+      state.boards = [];
+    },
     addBoard(state, board) {
       state.boards.push(board);
     },
@@ -93,6 +96,9 @@ export default new Vuex.Store({
       commit("deleteLoginUser");
     },
     // Boards
+    deleteBoards({ commit }) {
+      commit("deleteBoards");
+    },
     fetchBoards({ commit, getters }) {
       const url = "http://localhost:8080/api/read/boards";
       axios
