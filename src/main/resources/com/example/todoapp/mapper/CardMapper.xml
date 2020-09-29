@@ -5,17 +5,24 @@
 <mapper namespace="com.example.todoapp.mapper.CardMapper">
     <insert id="create" parameterType="com.example.todoapp.domain.Card">
         INSERT INTO
-        cards (name, tile_id)
-        VALUES (#{name}, #{tile_id});
+        cards (name, tile_id, indicator)
+        VALUES (#{name}, #{tile_id}, #{indicator} );
     </insert>
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID();
+    </select>
+    <select id="getMaxIndicator" resultType="int">
+        SELECT MAX(indicator)
+        FROM cards
+        WHERE tile_id = #{tile_id};
     </select>
     <update id="update" parameterType="com.example.todoapp.domain.Card">
         UPDATE
         cards
         SET
-        name = #{name}
+        name = #{name},
+        tile_id = #{tile_id},
+        indicator = #{indicator}
         WHERE
         card_id = #{card_id}
     </update>

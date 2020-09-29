@@ -6,6 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CardMapper {
     /**
+     * tile_idが一致するカードのindicatorの最大値を取得する
+     */
+    Integer getMaxIndicator(Integer tileId);
+
+    /**
      * tile_idをもとにcardを新規作成する
      *
      * @param card

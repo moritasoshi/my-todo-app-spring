@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -41,6 +42,17 @@ public class TodoService {
     }
 
     public Card create(Card card) {
+        // indicatorの設定
+        // tile_idが一致するカードのMAX(indicator)を取得
+        Integer maxIndicator = cardMapper.getMaxIndicator(card.getTile_id());
+        if (Objects.isNull(maxIndicator)) {
+            maxIndicator = 0;
+        } else {
+            maxIndicator += 1;
+        }
+        card.setIndicator(maxIndicator);
+
+        // DB更新
         cardMapper.create(card);
         Integer id = cardMapper.getLastInsertId();
         card.setCard_id(id);
@@ -60,6 +72,12 @@ public class TodoService {
     public Card update(Card card) {
         cardMapper.update(card);
         return card;
+    }
+
+    public void update(List<Tile> tiles) {
+        tiles.stream()
+                .flatMap(tile -> tile.getCards().stream())
+                .forEach(card -> cardMapper.update(card));
     }
 
     public Board delete(Board board) {

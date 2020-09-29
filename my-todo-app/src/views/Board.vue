@@ -13,11 +13,16 @@
         </v-btn>
       </template>
       <v-spacer></v-spacer>
+      <v-btn class="white--text" color="green" @click="updateTiles">save</v-btn>
     </v-container>
     <!-- ボード名変更 -->
     <ValidationObserver v-slot="{ invalid }">
       <v-form v-show="boardShow">
-        <ValidationProvider rules="required" v-slot="{ errors, valid }" name="ボード名">
+        <ValidationProvider
+          rules="required"
+          v-slot="{ errors, valid }"
+          name="ボード名"
+        >
           <v-text-field
             label="ボード名を入力"
             color="grey"
@@ -31,14 +36,20 @@
             class="ml-2"
             :disabled="invalid"
             @click="editBoard"
-          >ボード名を変更</v-btn>
+            >ボード名を変更</v-btn
+          >
         </ValidationProvider>
       </v-form>
     </ValidationObserver>
 
     <!-- 既存ボード -->
     <v-container class="d-flex">
-      <v-card width="230" class="mx-1" v-for="(tile, index) in board.tiles" :key="index">
+      <v-card
+        width="230"
+        class="mx-1"
+        v-for="(tile, index) in board.tiles"
+        :key="index"
+      >
         <v-app-bar dark color="grey" dense>
           <v-toolbar-title>{{ tile.name }}</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -91,6 +102,7 @@
                         cardId: card.card_id,
                         cardName: card.name,
                         tileId: tile.tile_id,
+                        indicator: card.indicator,
                       })
                     "
                   >
@@ -117,7 +129,11 @@
       <!-- リスト追加 -->
       <ValidationObserver v-slot="{ invalid }">
         <v-form>
-          <ValidationProvider rules="required" v-slot="{ errors, valid }" name="リスト名">
+          <ValidationProvider
+            rules="required"
+            v-slot="{ errors, valid }"
+            name="リスト名"
+          >
             <v-text-field
               v-model="newTile.name"
               label="+ リストを追加"
@@ -134,7 +150,8 @@
             class="ml-2"
             :disabled="invalid"
             @click="addTile"
-          >リストを追加</v-btn>
+            >リストを追加</v-btn
+          >
         </v-form>
       </ValidationObserver>
     </v-container>
@@ -154,7 +171,11 @@
     <!-- リスト名変更 -->
     <ValidationObserver v-slot="{ invalid }">
       <v-form v-show="tileShow">
-        <ValidationProvider rules="required" v-slot="{ errors, valid }" name="リスト名">
+        <ValidationProvider
+          rules="required"
+          v-slot="{ errors, valid }"
+          name="リスト名"
+        >
           <v-text-field
             label="リスト名を入力"
             color="grey"
@@ -168,7 +189,8 @@
             :disabled="invalid"
             class="ml-2"
             @click="editTile"
-          >リスト名を変更</v-btn>
+            >リスト名を変更</v-btn
+          >
         </ValidationProvider>
       </v-form>
     </ValidationObserver>
@@ -176,7 +198,11 @@
     <!-- カード名変更 -->
     <ValidationObserver v-slot="{ invalid }">
       <v-form v-show="cardShow">
-        <ValidationProvider rules="required" v-slot="{ errors, valid }" name="カード名">
+        <ValidationProvider
+          rules="required"
+          v-slot="{ errors, valid }"
+          name="カード名"
+        >
           <v-text-field
             label="カード名を入力"
             color="grey"
@@ -190,7 +216,8 @@
             :disabled="invalid"
             class="ml-2"
             @click="editCard"
-          >カード名を変更</v-btn>
+            >カード名を変更</v-btn
+          >
         </ValidationProvider>
       </v-form>
     </ValidationObserver>
@@ -273,11 +300,12 @@ export default {
       this.targetTile.name = tileName;
       this.targetTile.board_id = this.board.board_id;
     },
-    showCard({ cardId, cardName, tileId }) {
+    showCard({ cardId, cardName, tileId, indicator }) {
       this.cardShow = !this.cardShow;
       this.targetCard.card_id = cardId;
       this.targetCard.name = cardName;
       this.targetCard.tile_id = tileId;
+      this.targetCard.indicator = indicator;
     },
     // Edits
     editBoard() {
@@ -302,6 +330,18 @@ export default {
       });
       this.targetCard = {};
       this.cardShow = false;
+    },
+    updateTiles() {
+      this.board.tiles.forEach((tile) => {
+        tile.cards.forEach((card, index) => {
+          card.tile_id = tile.tile_id;
+          card.indicator = index;
+        });
+      });
+      this.$store.dispatch("updateTiles", {
+        board_id: this.board.board_id,
+        tiles: this.board.tiles,
+      });
     },
     // Adds
     addTile() {

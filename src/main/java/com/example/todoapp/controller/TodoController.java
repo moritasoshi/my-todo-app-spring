@@ -24,7 +24,7 @@ public class TodoController {
      * @return 任意のユーザーのボード情報
      */
     @GetMapping("/read/boards")
-    public List<Board> boards( String user_uid) {
+    public List<Board> boards(String user_uid) {
         return todoService.findAllBoard(user_uid);
     }
 
@@ -91,6 +91,17 @@ public class TodoController {
     public Card updateCard(@RequestBody Card card) {
         return todoService.update(card);
     }
+
+    /**
+     * @param tiles ┗必須フィールド：name, card_id
+     * @return
+     */
+    @PostMapping("/update/tiles")
+    public String updateTiles(@RequestBody List<Tile> tiles) {
+        todoService.update(tiles);
+        return "OK";
+    }
+
 
     /////////////////////////////
     //// delete
