@@ -13,7 +13,8 @@
         til.board_id as tile_board_id,
         car.card_id as card_id,
         car.name as card_name,
-        car.tile_id as card_tile_id
+        car.tile_id as card_tile_id,
+        car.indicator as card_indicator
 
         FROM boards as boa
         LEFT JOIN tiles as til
@@ -21,6 +22,7 @@
         LEFT JOIN cards as car
         on car.tile_id = til.tile_id
         WHERE boa.user_uid = #{user_uid}
+        ORDER BY car.indicator
     </select>
     <insert id="create" parameterType="com.example.todoapp.domain.Board">
         INSERT INTO
@@ -57,6 +59,7 @@
                 <result property="card_id" column="card_id"/>
                 <result property="name" column="card_name"/>
                 <result property="tile_id" column="card_tile_id"/>
+                <result property="indicator" column="card_indicator"/>
             </collection>
         </collection>
     </resultMap>

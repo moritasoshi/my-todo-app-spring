@@ -16,4 +16,8 @@ public class Card {
      * 所属するタイルのID
      */
     private Integer tile_id;
+    /**
+     * 所属するタイルでのインデックス値
+     */
+    private Integer indicator;
 }
