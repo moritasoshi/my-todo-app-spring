@@ -4,12 +4,12 @@
     <Toolbar />
 
     <!-- main -->
-    <v-content>
+    <v-main>
       <v-container fluid fillMheight align-start>
         <!-- router-view: the matched component for the given path  -->
         <router-view />
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
