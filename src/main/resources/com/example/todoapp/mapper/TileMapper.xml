@@ -11,6 +11,11 @@
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID();
     </select>
+    <select id="load" resultType="com.example.todoapp.domain.Tile">
+        SELECT *
+        FROM tiles
+        WHERE tile_id = #{tile_id};
+    </select>
     <update id="update" parameterType="com.example.todoapp.domain.Tile">
         UPDATE
         tiles

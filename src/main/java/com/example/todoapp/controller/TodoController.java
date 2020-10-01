@@ -5,10 +5,7 @@ import com.example.todoapp.domain.Card;
 import com.example.todoapp.domain.Tile;
 import com.example.todoapp.exception.BadRequestException;
 import com.example.todoapp.exception.ConflictException;
-import com.example.todoapp.form.BoardForm;
-import com.example.todoapp.form.CardForm;
-import com.example.todoapp.form.PutBoardForm;
-import com.example.todoapp.form.TileForm;
+import com.example.todoapp.form.*;
 import com.example.todoapp.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -97,23 +94,32 @@ public class TodoController {
     @PutMapping("/board")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Board updateBoard(@RequestBody @Validated PutBoardForm form, BindingResult result) {
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             throw new BadRequestException("Bad Request");
         }
+
         Board board = form.toBoard();
-        if(!todoService.containsBoardId(board.getBoard_id())){
-            throw new ConflictException(String.format("Conflict[id: %s doesn't exist]", board.getBoard_id()));
+        if (!todoService.containsBoardId(board.getBoard_id())) {
+            throw new ConflictException(String.format("Conflict[board_id: %s doesn't exist]", board.getBoard_id()));
         }
         return todoService.update(board);
     }
 
     /**
-     * @param tile ┗必須フィールド：name, tile_id
+     * @param form ┗必須フィールド：name, tile_id
      * @return引数のtileを返す
      */
     @PutMapping("/tile")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Tile updateTile(@RequestBody Tile tile) {
+    public Tile updateTile(@RequestBody @Validated PutTileForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new BadRequestException("Bad Request");
+        }
+
+        Tile tile = form.toTile();
+        if (!todoService.containsTileId(tile.getTile_id())) {
+            throw new ConflictException(String.format("Conflict[tile_id: %s doesn't exist]", tile.getTile_id()));
+        }
         return todoService.update(tile);
     }
 

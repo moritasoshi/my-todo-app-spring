@@ -123,4 +123,12 @@ public class TodoService {
         }
         return true;
     }
+
+    public boolean containsTileId(Integer tile_id){
+        Tile tile = tileMapper.load(tile_id);
+        if(Objects.isNull(tile)){
+            return false;
+        }
+        return true;
+    }
 }
