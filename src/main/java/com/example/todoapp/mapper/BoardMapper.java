@@ -42,4 +42,12 @@ public interface BoardMapper {
      * @param board_id
      */
     void delete(Integer board_id);
+
+    /**
+     *
+     * 任意のboard_idと一致するレコードを返却する
+     * @param board_id
+     * @return
+     */
+    Board load(Integer board_id);
 }

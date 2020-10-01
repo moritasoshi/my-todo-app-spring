@@ -4,8 +4,10 @@ import com.example.todoapp.domain.Board;
 import com.example.todoapp.domain.Card;
 import com.example.todoapp.domain.Tile;
 import com.example.todoapp.exception.BadRequestException;
+import com.example.todoapp.exception.ConflictException;
 import com.example.todoapp.form.BoardForm;
 import com.example.todoapp.form.CardForm;
+import com.example.todoapp.form.PutBoardForm;
 import com.example.todoapp.form.TileForm;
 import com.example.todoapp.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,12 +91,19 @@ public class TodoController {
     /////////////////////////////
 
     /**
-     * @param board ┗必須フィールド：name, board_id
+     * @param form ┗必須フィールド：name, board_id
      * @return引数のboardを返す
      */
     @PutMapping("/board")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Board updateBoard(@RequestBody Board board) {
+    public Board updateBoard(@RequestBody @Validated PutBoardForm form, BindingResult result) {
+        if(result.hasErrors()){
+            throw new BadRequestException("Bad Request");
+        }
+        Board board = form.toBoard();
+        if(!todoService.containsBoardId(board.getBoard_id())){
+            throw new ConflictException(String.format("Conflict[id: %s doesn't exist]", board.getBoard_id()));
+        }
         return todoService.update(board);
     }
 

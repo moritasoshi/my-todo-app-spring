@@ -115,4 +115,12 @@ public class TodoService {
     public void deleteCard(Integer cardId) {
         cardMapper.delete(cardId);
     }
+
+    public boolean containsBoardId(Integer board_id){
+        Board board = boardMapper.load(board_id);
+        if(Objects.isNull(board)){
+            return false;
+        }
+        return true;
+    }
 }

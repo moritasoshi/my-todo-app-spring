@@ -32,6 +32,11 @@
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID();
     </select>
+    <select id="load" resultType="com.example.todoapp.domain.Board">
+        SELECT *
+        FROM boards
+        WHERE board_id = #{board_id};
+    </select>
     <update id="update" parameterType="com.example.todoapp.domain.Board">
         update
         boards
