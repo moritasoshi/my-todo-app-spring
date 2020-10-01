@@ -1,6 +1,7 @@
 package com.example.todoapp.mapper;
 
 import com.example.todoapp.domain.Card;
+import com.example.todoapp.domain.Tile;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -46,4 +47,14 @@ public interface CardMapper {
      * @return
      */
     List<Card> getCardsByTileId(Integer tileId);
+
+    /**
+     *
+     * 任意のtile_idと一致するレコードを返却する
+     * @param card_id
+     * @return
+     */
+    Card load(Integer card_id);
+
+
 }

@@ -124,12 +124,29 @@ public class TodoController {
     }
 
     /**
-     * @param card ┗必須フィールド：name, card_id
+     * @param form ┗必須フィールド：name, card_id
      * @return 引数のcardを返す
      */
     @PutMapping("/card")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Card updateCard(@RequestBody Card card) {
+    public Card updateCard(@RequestBody @Validated PutCardForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new BadRequestException("Bad Request");
+        }
+
+        Card card = form.toCard();
+        // card_idが存在しない場合
+        if (!todoService.containsCardId(card.getCard_id())) {
+            throw new ConflictException(String.format("Conflict[card_id: %s doesn't exist]", card.getCard_id()));
+        }
+        // tile_idが存在しない場合
+        if (!todoService.containsTileId(card.getTile_id())) {
+            throw new ConflictException(String.format("Conflict[tile_id: %s doesn't exist]", card.getTile_id()));
+        }
+        // 任意のtileでindicatorが重複している場合
+        if(todoService.hasDuplicateIndicator(card)){
+            throw new ConflictException(String.format("Conflict[Duplicate indicator: %s]", card.getIndicator()));
+        }
         return todoService.update(card);
     }
 

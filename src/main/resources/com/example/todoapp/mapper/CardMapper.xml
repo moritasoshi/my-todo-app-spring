@@ -16,6 +16,11 @@
         FROM cards
         WHERE tile_id = #{tile_id};
     </select>
+    <select id="load" resultType="com.example.todoapp.domain.Card">
+        SELECT *
+        FROM cards
+        WHERE card_id = #{card_id};
+    </select>
     <update id="update" parameterType="com.example.todoapp.domain.Card">
         UPDATE
         cards

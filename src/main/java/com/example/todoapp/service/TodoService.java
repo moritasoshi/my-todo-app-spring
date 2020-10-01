@@ -116,19 +116,41 @@ public class TodoService {
         cardMapper.delete(cardId);
     }
 
-    public boolean containsBoardId(Integer board_id){
+    public boolean containsBoardId(Integer board_id) {
         Board board = boardMapper.load(board_id);
-        if(Objects.isNull(board)){
+        if (Objects.isNull(board)) {
             return false;
         }
         return true;
     }
 
-    public boolean containsTileId(Integer tile_id){
+    public boolean containsTileId(Integer tile_id) {
         Tile tile = tileMapper.load(tile_id);
-        if(Objects.isNull(tile)){
+        if (Objects.isNull(tile)) {
             return false;
         }
         return true;
+    }
+
+    public boolean containsCardId(Integer card_id) {
+        Card card = cardMapper.load(card_id);
+        if (Objects.isNull(card)) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean hasDuplicateIndicator(Card card) {
+        List<Integer> indicators = cardMapper.getCardsByTileId(card.getTile_id())
+                .stream()
+                .filter(card1 -> card1.getCard_id() != card.getCard_id()) // 自分以外のカードに絞り込み
+                .map(Card::getIndicator)
+                .collect(Collectors.toList());
+
+        // 自分以外のカードとIndicatorが一致してしまう場合はindicatorの重複を通知
+        if (indicators.contains(card.getIndicator())) {
+            return true;
+        }
+        return false;
     }
 }
