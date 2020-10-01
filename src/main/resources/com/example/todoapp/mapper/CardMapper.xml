@@ -26,11 +26,19 @@
         WHERE
         card_id = #{card_id}
     </update>
-    <delete id="delete" parameterType="com.example.todoapp.domain.Card">
+    <delete id="delete">
         DELETE
         FROM
         cards
         WHERE
-        card_id = #{card_id}
+        card_id = #{cardId}
     </delete>
+    <select id="getCardsByTileId" resultType="com.example.todoapp.domain.Card">
+        SELECT
+         *
+        FROM
+         cards
+        WHERE
+         tile_id = #{tileId}
+    </select>
 </mapper>

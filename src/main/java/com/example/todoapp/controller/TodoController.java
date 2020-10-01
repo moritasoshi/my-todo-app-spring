@@ -5,6 +5,7 @@ import com.example.todoapp.domain.Card;
 import com.example.todoapp.domain.Tile;
 import com.example.todoapp.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +24,12 @@ public class TodoController {
     /**
      * @return 任意のユーザーのボード情報
      */
-    @GetMapping("/read/boards")
-    public List<Board> boards(String user_uid) {
+    @GetMapping("/boards")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Board> getBoards(String user_uid) {
         return todoService.findAllBoard(user_uid);
     }
+
 
 
     /////////////////////////////
@@ -37,7 +40,8 @@ public class TodoController {
      * @param board ┗必須フィールド：name
      * @return idが付与されたboardを返す
      */
-    @PostMapping("/create/board")
+    @PostMapping("/board")
+    @ResponseStatus(HttpStatus.CREATED)
     public Board createBoard(@RequestBody Board board) {
         return todoService.create(board);
     }
@@ -46,7 +50,8 @@ public class TodoController {
      * @param tile ┗必須フィールド：name, board_id
      * @return idが付与されたtileを返す
      */
-    @PostMapping("/create/tile")
+    @PostMapping("/tile")
+    @ResponseStatus(HttpStatus.CREATED)
     public Tile createTile(@RequestBody Tile tile) {
         return todoService.create(tile);
     }
@@ -55,7 +60,8 @@ public class TodoController {
      * @param card ┗必須フィールド：name, tile_id
      * @return idが付与されたcardを返す
      */
-    @PostMapping("/create/card")
+    @PostMapping("/card")
+    @ResponseStatus(HttpStatus.CREATED)
     public Card createCard(@RequestBody Card card) {
         return todoService.create(card);
     }
@@ -69,7 +75,8 @@ public class TodoController {
      * @param board ┗必須フィールド：name, board_id
      * @return引数のboardを返す
      */
-    @PostMapping("/update/board")
+    @PutMapping("/board")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Board updateBoard(@RequestBody Board board) {
         return todoService.update(board);
     }
@@ -78,7 +85,8 @@ public class TodoController {
      * @param tile ┗必須フィールド：name, tile_id
      * @return引数のtileを返す
      */
-    @PostMapping("/update/tile")
+    @PutMapping("/tile")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Tile updateTile(@RequestBody Tile tile) {
         return todoService.update(tile);
     }
@@ -87,7 +95,8 @@ public class TodoController {
      * @param card ┗必須フィールド：name, card_id
      * @return 引数のcardを返す
      */
-    @PostMapping("/update/card")
+    @PutMapping("/card")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Card updateCard(@RequestBody Card card) {
         return todoService.update(card);
     }
@@ -96,7 +105,8 @@ public class TodoController {
      * @param tiles ┗必須フィールド：name, card_id
      * @return
      */
-    @PostMapping("/update/tiles")
+    @PutMapping("/tiles")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public String updateTiles(@RequestBody List<Tile> tiles) {
         todoService.update(tiles);
         return "OK";
@@ -108,29 +118,32 @@ public class TodoController {
     /////////////////////////////
 
     /**
-     * @param board ┗必須フィールド：name, board_id
+     * @param  ┗必須フィールド：name, board_id
      * @return引数のboardを返す
      */
-    @PostMapping("/delete/board")
-    public Board deleteBoard(@RequestBody Board board) {
-        return todoService.delete(board);
+    @DeleteMapping("/board/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBoard(@PathVariable("id") Integer id) {
+        todoService.deleteBoard(id);
     }
 
     /**
      * @param tile ┗必須フィールド：name, tile_id
      * @return引数のtileを返す
      */
-    @PostMapping("/delete/tile")
-    public Tile deleteTile(@RequestBody Tile tile) {
-        return todoService.delete(tile);
+    @DeleteMapping("/tile/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTile(@PathVariable("id") Integer id) {
+        todoService.deleteTile(id);
     }
 
     /**
      * @param card ┗必須フィールド：name, card_id
      * @return 引数のcardを返す
      */
-    @PostMapping("/delete/card")
-    public Card deleteCard(@RequestBody Card card) {
-        return todoService.delete(card);
+    @DeleteMapping("/card/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCard(@PathVariable("id") Integer id) {
+        todoService.deleteCard(id);
     }
 }

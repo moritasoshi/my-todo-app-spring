@@ -40,12 +40,12 @@
         WHERE
         board_id = #{board_id}
     </update>
-    <delete id="delete" parameterType="com.example.todoapp.domain.Board">
+    <delete id="delete">
         DELETE
         FROM
         boards
         WHERE
-        board_id = #{board_id}
+        board_id = #{boardId}
     </delete>
     <resultMap id="findAllByUserIdResult" type="com.example.todoapp.domain.Board">
         <id property="board_id" column="board_id"/>

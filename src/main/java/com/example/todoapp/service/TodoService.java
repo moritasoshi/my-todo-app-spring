@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -80,30 +81,38 @@ public class TodoService {
                 .forEach(card -> cardMapper.update(card));
     }
 
-    public Board delete(Board board) {
+    public void deleteBoard(Integer boardId) {
         // delete board
-        boardMapper.delete(board);
+        boardMapper.delete(boardId);
+
         // delete tiles
-        board.getTiles()
-                .forEach(tile -> tileMapper.delete(tile));
+        List<Integer> tileIdList = tileMapper.getTilesByBoardId(boardId)
+                .stream()
+                .map(Tile::getTile_id)
+                .collect(Collectors.toList());
+
+        tileIdList.forEach(tileId -> tileMapper.delete(tileId));
+
         // delete cards
-        board.getTiles().stream()
-                .flatMap(tile -> tile.getCards().stream()) // 全ての"tile"からカードリストを取得し新たなList<Card>を作成
-                .forEach(card -> cardMapper.delete(card));
-        return board;
+        tileIdList
+                .stream()
+                .flatMap(tileId -> cardMapper.getCardsByTileId(tileId).stream())
+                .map(Card::getCard_id)
+                .forEach(cardId -> cardMapper.delete(cardId));
     }
 
-    public Tile delete(Tile tile) {
+    public void deleteTile(Integer tileId) {
         // delete tiles
-        tileMapper.delete(tile);
+        tileMapper.delete(tileId);
+
         // delete cards
-        tile.getCards()
-                .forEach(card -> cardMapper.delete(card));
-        return tile;
+        cardMapper.getCardsByTileId(tileId)
+                .stream()
+                .map(Card::getCard_id)
+                .forEach(cardId -> cardMapper.delete(cardId));
     }
 
-    public Card delete(Card card) {
-        cardMapper.delete(card);
-        return card;
+    public void deleteCard(Integer cardId) {
+        cardMapper.delete(cardId);
     }
 }

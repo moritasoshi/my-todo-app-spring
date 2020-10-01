@@ -19,11 +19,19 @@
         WHERE
         tile_id = #{tile_id}
     </update>
-    <delete id="delete" parameterType="com.example.todoapp.domain.Tile">
+    <delete id="delete">
         DELETE
         FROM
         tiles
         WHERE
-        tile_id = #{tile_id}
+        tile_id = #{tileId}
     </delete>
+    <select id="getTilesByBoardId" parameterType="com.example.todoapp.domain.Tile">
+        SELECT
+         *
+        FROM
+         tiles
+        WHERE
+         board_id = #{boardId}
+    </select>
 </mapper>

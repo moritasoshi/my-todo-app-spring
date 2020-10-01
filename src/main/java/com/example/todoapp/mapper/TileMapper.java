@@ -4,6 +4,8 @@ import com.example.todoapp.domain.Card;
 import com.example.todoapp.domain.Tile;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface TileMapper {
     /**
@@ -28,7 +30,13 @@ public interface TileMapper {
 
     /**
      * Tileの削除
-     * @param tile
+     * @param tileId
      */
-    void delete(Tile tile);
+    void delete(Integer tileId);
+
+    /**
+     * 任意のBoardIDに一致する全てのタイルを検索する
+     * @param boardId
+     */
+    List<Tile> getTilesByBoardId(Integer boardId);
 }

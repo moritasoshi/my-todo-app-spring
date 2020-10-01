@@ -3,6 +3,8 @@ package com.example.todoapp.mapper;
 import com.example.todoapp.domain.Card;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface CardMapper {
     /**
@@ -34,7 +36,14 @@ public interface CardMapper {
     /**
      * カードの削除
      *
-     * @param card
+     * @param cardId
      */
-    void delete(Card card);
+    void delete(Integer cardId);
+
+    /**
+     * 任意のタイルIDを持つ全てのカードを検索する
+     * @param tileId
+     * @return
+     */
+    List<Card> getCardsByTileId(Integer tileId);
 }

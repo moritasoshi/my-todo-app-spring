@@ -40,7 +40,7 @@ public interface BoardMapper {
     /**
      * ボードを削除する
      *
-     * @param board
+     * @param board_id
      */
-    void delete(Board board);
+    void delete(Integer board_id);
 }
