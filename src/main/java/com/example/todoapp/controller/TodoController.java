@@ -3,6 +3,7 @@ package com.example.todoapp.controller;
 import com.example.todoapp.domain.Board;
 import com.example.todoapp.domain.Card;
 import com.example.todoapp.domain.Tile;
+import com.example.todoapp.exception.NotFoundException;
 import com.example.todoapp.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,15 @@ public class TodoController {
     /////////////////////////////
 
     /**
+     *
+     * status success => 200
      * @return 任意のユーザーのボード情報
      */
-    @GetMapping("/boards")
+    @GetMapping("/boards/{user_uid}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Board> getBoards(String user_uid) {
-        return todoService.findAllBoard(user_uid);
+    public List<Board> getBoards(@PathVariable("user_uid") String user_uid) {
+        List<Board> boards = todoService.findAllBoard(user_uid);
+        return boards;
     }
 
 

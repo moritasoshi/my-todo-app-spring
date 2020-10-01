@@ -1,7 +1,6 @@
 package com.example.todoapp.mapper;
 
 import com.example.todoapp.domain.Board;
-import com.example.todoapp.domain.Card;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
