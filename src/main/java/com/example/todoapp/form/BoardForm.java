@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 public class BoardForm {
@@ -28,9 +29,11 @@ public class BoardForm {
      */
     private List<Tile> tiles;
 
-    public Board toBoard(){
+    public Board toBoard() {
         Board board = new Board();
-        board.setBoard_id(Integer.parseInt(board_id));
+        if (Objects.nonNull(board_id)) {
+            board.setBoard_id(Integer.parseInt(board_id));
+        }
         board.setName(name);
         board.setUser_uid(user_uid);
         board.setTiles(tiles);
