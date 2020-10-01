@@ -3,10 +3,15 @@ package com.example.todoapp.controller;
 import com.example.todoapp.domain.Board;
 import com.example.todoapp.domain.Card;
 import com.example.todoapp.domain.Tile;
-import com.example.todoapp.exception.NotFoundException;
+import com.example.todoapp.exception.BadRequestException;
+import com.example.todoapp.form.BoardForm;
+import com.example.todoapp.form.CardForm;
+import com.example.todoapp.form.TileForm;
 import com.example.todoapp.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +28,8 @@ public class TodoController {
     /////////////////////////////
 
     /**
-     *
      * status success => 200
+     *
      * @return 任意のユーザーのボード情報
      */
     @GetMapping("/boards/{user_uid}")
@@ -35,39 +40,47 @@ public class TodoController {
     }
 
 
-
     /////////////////////////////
     //// create
     /////////////////////////////
 
     /**
-     * @param board ┗必須フィールド：name
+     * @param form ┗必須フィールド：name
      * @return idが付与されたboardを返す
      */
     @PostMapping("/board")
     @ResponseStatus(HttpStatus.CREATED)
-    public Board createBoard(@RequestBody Board board) {
-        return todoService.create(board);
+    public Board createBoard(@RequestBody @Validated BoardForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new BadRequestException("Bad Request");
+        }
+        return todoService.create(form.toBoard());
     }
 
     /**
-     * @param tile ┗必須フィールド：name, board_id
+     * @param form ┗必須フィールド：name, board_id
      * @return idが付与されたtileを返す
      */
     @PostMapping("/tile")
     @ResponseStatus(HttpStatus.CREATED)
-    public Tile createTile(@RequestBody Tile tile) {
-        return todoService.create(tile);
+    public Tile createTile(@RequestBody @Validated TileForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new BadRequestException("Bad Request");
+        }
+        return todoService.create(form.toTile());
     }
 
     /**
-     * @param card ┗必須フィールド：name, tile_id
+     * @param form ┗必須フィールド：name, tile_id
      * @return idが付与されたcardを返す
      */
     @PostMapping("/card")
     @ResponseStatus(HttpStatus.CREATED)
-    public Card createCard(@RequestBody Card card) {
-        return todoService.create(card);
+    public Card createCard(@RequestBody @Validated CardForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new BadRequestException("Bad Request");
+        }
+        return todoService.create(form.toCard());
     }
 
 
@@ -122,7 +135,7 @@ public class TodoController {
     /////////////////////////////
 
     /**
-     * @param  ┗必須フィールド：name, board_id
+     * @param id ┗必須フィールド：name, board_id
      * @return引数のboardを返す
      */
     @DeleteMapping("/board/{id}")
@@ -132,7 +145,7 @@ public class TodoController {
     }
 
     /**
-     * @param tile ┗必須フィールド：name, tile_id
+     * @param id ┗必須フィールド：name, tile_id
      * @return引数のtileを返す
      */
     @DeleteMapping("/tile/{id}")
@@ -142,7 +155,7 @@ public class TodoController {
     }
 
     /**
-     * @param card ┗必須フィールド：name, card_id
+     * @param id ┗必須フィールド：name, card_id
      * @return 引数のcardを返す
      */
     @DeleteMapping("/card/{id}")
