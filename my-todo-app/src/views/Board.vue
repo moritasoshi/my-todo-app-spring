@@ -123,7 +123,6 @@
 
 <script>
 import Draggable from "vuedraggable";
-import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -131,7 +130,7 @@ export default {
   },
   data() {
     return {
-      board: {},
+      // board: {},
       tileShow: false,
       boardShow: false,
       cardShow: false,
@@ -154,9 +153,13 @@ export default {
       required: true,
     },
   },
-
+  computed: {
+    board() {
+      return this.$store.getters.getBoardByName(this.slug);
+    },
+  },
   created() {
-    this.board = this.$store.getters.getBoardByName(this.slug);
+    // this.board = this.$store.getters.getBoardByName(this.slug);
   },
   methods: {
     // Show when edit buttons pushed
@@ -291,7 +294,6 @@ export default {
         return v.toString(16);
       });
     },
-    ...mapActions(["updateBoard"]),
   },
 };
 </script>

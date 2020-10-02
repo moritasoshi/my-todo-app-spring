@@ -121,7 +121,9 @@ export default new Vuex.Store({
       axios
         .post(uri, board)
         .then((responce) => {
-          commit("addBoard", responce.data);
+          board.board_id = responce.data.board_id;
+          board.tiles = [];
+          commit("addBoard", board);
         })
         .catch(function(error) {
           console.log("Error getting result: ", error);
@@ -132,7 +134,9 @@ export default new Vuex.Store({
       axios
         .post(uri, tile)
         .then((responce) => {
-          commit("addTile", responce.data);
+          tile.tile_id = responce.data.tile_id;
+          tile.cards = [];
+          commit("addTile", tile);
         })
         .catch(function(error) {
           console.log("Error getting result: ", error);
