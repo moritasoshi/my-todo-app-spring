@@ -154,8 +154,8 @@ export default new Vuex.Store({
       const uri = "http://localhost:8080/api/board";
       axios
         .put(uri, board)
-        .then((responce) => {
-          commit("updateBoard", responce.data);
+        .then(() => {
+          commit("updateBoard", board);
         })
         .catch(function(error) {
           console.log("Error getting results: ", error);
@@ -165,8 +165,8 @@ export default new Vuex.Store({
       const uri = "http://localhost:8080/api/tile";
       axios
         .put(uri, tile)
-        .then((responce) => {
-          commit("updateTile", responce.data);
+        .then(() => {
+          commit("updateTile", tile);
         })
         .catch(function(error) {
           console.log("Error getting results: ", error);
@@ -176,8 +176,8 @@ export default new Vuex.Store({
       const uri = "http://localhost:8080/api/card";
       axios
         .put(uri, card)
-        .then((responce) => {
-          commit("updateCard", { board_id: board_id, card: responce.data });
+        .then(() => {
+          commit("updateCard", { board_id: board_id, card: card });
         })
         .catch(function(error) {
           console.log("Error getting results: ", error);
@@ -199,8 +199,8 @@ export default new Vuex.Store({
       const uri = "http://localhost:8080/api/board";
       axios
         .delete(uri + "/" + board.board_id)
-        .then((responce) => {
-          commit("deleteBoard", responce.data);
+        .then(() => {
+          commit("deleteBoard", board);
         })
         .catch(function(error) {
           console.log("Error getting results: ", error);
@@ -210,8 +210,8 @@ export default new Vuex.Store({
       const uri = "http://localhost:8080/api/tile";
       axios
         .delete(uri + "/" + tile.tile_id)
-        .then((responce) => {
-          commit("deleteTile", responce.data);
+        .then(() => {
+          commit("deleteTile", tile);
         })
         .catch(function(error) {
           console.log("Error getting results: ", error);
