@@ -103,13 +103,9 @@ export default new Vuex.Store({
       commit("deleteBoards");
     },
     fetchBoards({ commit, getters }) {
-      const url = "http://localhost:8080/api/read/boards";
+      const uri = "http://localhost:8080/api/boards";
       axios
-        .get(url, {
-          params: {
-            user_uid: getters.uid,
-          },
-        })
+        .get(uri + "/" + getters.uid)
         .then((responce) => {
           responce.data.forEach(function(doc) {
             commit("addBoard", doc);
@@ -121,9 +117,9 @@ export default new Vuex.Store({
     },
     // Adds
     addBoard({ commit }, board) {
-      const url = "http://localhost:8080/api/create/board";
+      const uri = "http://localhost:8080/api/board";
       axios
-        .post(url, board)
+        .post(uri, board)
         .then((responce) => {
           commit("addBoard", responce.data);
         })
@@ -132,9 +128,9 @@ export default new Vuex.Store({
         });
     },
     addTile({ commit }, tile) {
-      const url = "http://localhost:8080/api/create/tile";
+      const uri = "http://localhost:8080/api/tile";
       axios
-        .post(url, tile)
+        .post(uri, tile)
         .then((responce) => {
           commit("addTile", responce.data);
         })
@@ -143,9 +139,9 @@ export default new Vuex.Store({
         });
     },
     addCard({ commit }, { board_id, card }) {
-      const url = "http://localhost:8080/api/create/card";
+      const uri = "http://localhost:8080/api/card";
       axios
-        .post(url, card)
+        .post(uri, card)
         .then((responce) => {
           commit("addCard", { board_id: board_id, card: responce.data });
         })
@@ -155,9 +151,9 @@ export default new Vuex.Store({
     },
     // Updates
     updateBoard({ commit }, board) {
-      const url = "http://localhost:8080/api/update/board";
+      const uri = "http://localhost:8080/api/board";
       axios
-        .post(url, board)
+        .put(uri, board)
         .then((responce) => {
           commit("updateBoard", responce.data);
         })
@@ -166,9 +162,9 @@ export default new Vuex.Store({
         });
     },
     updateTile({ commit }, tile) {
-      const url = "http://localhost:8080/api/update/tile";
+      const uri = "http://localhost:8080/api/tile";
       axios
-        .post(url, tile)
+        .put(uri, tile)
         .then((responce) => {
           commit("updateTile", responce.data);
         })
@@ -177,9 +173,9 @@ export default new Vuex.Store({
         });
     },
     updateCard({ commit }, { board_id, card }) {
-      const url = "http://localhost:8080/api/update/card";
+      const uri = "http://localhost:8080/api/card";
       axios
-        .post(url, card)
+        .put(uri, card)
         .then((responce) => {
           commit("updateCard", { board_id: board_id, card: responce.data });
         })
@@ -188,9 +184,9 @@ export default new Vuex.Store({
         });
     },
     updateTiles({ commit }, { board_id, tiles }) {
-      const uri = "http://localhost:8080/api/update/tiles";
+      const uri = "http://localhost:8080/api/tiles";
       axios
-        .post(uri, tiles)
+        .put(uri, tiles)
         .then(() => {
           commit("updateTiles", { board_id: board_id, tiles: tiles });
         })
@@ -200,9 +196,9 @@ export default new Vuex.Store({
     },
     // Deletes
     deleteBoard({ commit }, board) {
-      const url = "http://localhost:8080/api/delete/board";
+      const uri = "http://localhost:8080/api/board";
       axios
-        .post(url, board)
+        .delete(uri + "/" + board.board_id)
         .then((responce) => {
           commit("deleteBoard", responce.data);
         })
@@ -211,9 +207,9 @@ export default new Vuex.Store({
         });
     },
     deleteTile({ commit }, tile) {
-      const url = "http://localhost:8080/api/delete/tile";
+      const uri = "http://localhost:8080/api/tile";
       axios
-        .post(url, tile)
+        .delete(uri + "/" + tile.tile_id)
         .then((responce) => {
           commit("deleteTile", responce.data);
         })
@@ -222,9 +218,9 @@ export default new Vuex.Store({
         });
     },
     deleteCard({ commit }, { board_id, card }) {
-      const url = "http://localhost:8080/api/delete/card";
+      const uri = "http://localhost:8080/api/card";
       axios
-        .post(url, card)
+        .delete(uri + "/" + card.card_id)
         .then(() => {
           commit("deleteCard", { board_id: board_id, card: card });
         })
