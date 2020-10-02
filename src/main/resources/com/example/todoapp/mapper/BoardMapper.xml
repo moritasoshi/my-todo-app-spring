@@ -22,7 +22,7 @@
         LEFT JOIN cards as car
         on car.tile_id = til.tile_id
         WHERE boa.user_uid = #{user_uid}
-        ORDER BY car.indicator
+        ORDER BY boa.board_id, til.tile_id, car.indicator
     </select>
     <insert id="create" parameterType="com.example.todoapp.domain.Board">
         INSERT INTO
