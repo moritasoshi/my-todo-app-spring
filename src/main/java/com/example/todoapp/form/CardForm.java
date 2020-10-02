@@ -41,7 +41,6 @@ public class CardForm {
         }
         card.setName(name);
         card.setTile_id(Integer.parseInt(tile_id));
-        card.setIndicator(Integer.parseInt(indicator));
         return card;
     }
 }
