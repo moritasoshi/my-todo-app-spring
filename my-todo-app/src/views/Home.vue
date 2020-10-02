@@ -25,27 +25,10 @@
       <v-flex xs4 mt-5>
         <v-card>
           <v-card-text>
-            <ValidationObserver v-slot="{ invalid }">
-              <v-form>
-                <ValidationProvider rules="required" v-slot="{ errors, valid }" name="ボードタイトル">
-                  <v-text-field
-                    outlined
-                    v-model="newBoard.name"
-                    label="ボードタイトル"
-                    color="grey"
-                    :error-messages="errors"
-                    :success="valid"
-                  ></v-text-field>
-                </ValidationProvider>
-                <v-btn
-                  :disabled="invalid"
-                  color="green lighten-2"
-                  dark
-                  class="ml-2"
-                  @click="createNewBoard"
-                >新しいボードを作成</v-btn>
-              </v-form>
-            </ValidationObserver>
+            <v-form>
+              <v-text-field outlined v-model="newBoard.name" label="ボードタイトル" color="grey"></v-text-field>
+              <v-btn color="green lighten-2" dark class="ml-2" @click="createNewBoard">新しいボードを作成</v-btn>
+            </v-form>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -55,29 +38,13 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { required } from "vee-validate/dist/rules";
-import ja from "vee-validate/dist/locale/ja.json";
-import {
-  extend,
-  localize,
-  ValidationProvider,
-  ValidationObserver,
-} from "vee-validate";
-
-// バリデーションルール
-extend("required", required);
-// Localization
-localize("ja", ja);
 
 export default {
-  components: {
-    ValidationProvider,
-    ValidationObserver,
-  },
   data() {
     return {
       newBoard: {
-        name: null,
+        name: "",
+        user_uid: "",
       },
     };
   },
@@ -89,13 +56,18 @@ export default {
   },
   methods: {
     createNewBoard() {
+      const valid = /^\w/.test(this.newBoard.name);
+      const notNull = /^\S/.test(this.newBoard.name);
+
+      if (!valid || !notNull) {
+        return;
+      }
       const uid = this.$store.getters.uid;
       if (uid) {
         this.newBoard.user_uid = uid;
         this.addBoard(this.newBoard);
-        this.newBoard = {};
+        this.newBoard = { name: "", user_uid: "" };
       }
-      // 初期化
     },
     ...mapActions(["addBoard"]),
   },
