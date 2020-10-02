@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -144,7 +145,7 @@ public class TodoController {
             throw new ConflictException(String.format("Conflict[tile_id: %s doesn't exist]", card.getTile_id()));
         }
         // 任意のtileでindicatorが重複している場合
-        if(todoService.hasDuplicateIndicator(card)){
+        if (todoService.hasDuplicateIndicator(card)) {
             throw new ConflictException(String.format("Conflict[Duplicate indicator: %s]", card.getIndicator()));
         }
         return todoService.update(card);
@@ -158,7 +159,7 @@ public class TodoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String updateTiles(@RequestBody List<Tile> tiles) {
         todoService.update(tiles);
-        return "OK";
+        return null;
     }
 
 
@@ -172,8 +173,21 @@ public class TodoController {
      */
     @DeleteMapping("/board/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBoard(@PathVariable("id") Integer id) {
-        todoService.deleteBoard(id);
+    public void deleteBoard(@PathVariable("id") String id) {
+        if (Objects.isNull(id)) {
+            throw new BadRequestException("Bad Request");
+        }
+        Integer parsedId;
+        try {
+            parsedId = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("Bad Request[id isn't integer]");
+        }
+        // board_idが存在しない場合
+        if (!todoService.containsBoardId(parsedId)) {
+            throw new ConflictException(String.format("Conflict[board_id: %s doesn't exist]", parsedId));
+        }
+        todoService.deleteBoard(parsedId);
     }
 
     /**
@@ -182,8 +196,21 @@ public class TodoController {
      */
     @DeleteMapping("/tile/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTile(@PathVariable("id") Integer id) {
-        todoService.deleteTile(id);
+    public void deleteTile(@PathVariable("id") String id) {
+        if (Objects.isNull(id)) {
+            throw new BadRequestException("Bad Request");
+        }
+        Integer parsedId;
+        try {
+            parsedId = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("Bad Request[id isn't integer]");
+        }
+        // board_idが存在しない場合
+        if (!todoService.containsTileId(parsedId)) {
+            throw new ConflictException(String.format("Conflict[tile_id: %s doesn't exist]", parsedId));
+        }
+        todoService.deleteTile(parsedId);
     }
 
     /**
@@ -192,7 +219,20 @@ public class TodoController {
      */
     @DeleteMapping("/card/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCard(@PathVariable("id") Integer id) {
-        todoService.deleteCard(id);
+    public void deleteCard(@PathVariable("id") String id) {
+        if (Objects.isNull(id)) {
+            throw new BadRequestException("Bad Request");
+        }
+        Integer parsedId;
+        try {
+            parsedId = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("Bad Request[id isn't integer]");
+        }
+        // board_idが存在しない場合
+        if (!todoService.containsCardId(parsedId)) {
+            throw new ConflictException(String.format("Conflict[card_id: %s doesn't exist]", parsedId));
+        }
+        todoService.deleteCard(parsedId);
     }
 }
