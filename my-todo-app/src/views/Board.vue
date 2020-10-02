@@ -16,40 +16,14 @@
       <v-btn class="white--text" color="green" @click="updateTiles">save</v-btn>
     </v-container>
     <!-- ボード名変更 -->
-    <ValidationObserver v-slot="{ invalid }">
-      <v-form v-show="boardShow">
-        <ValidationProvider
-          rules="required"
-          v-slot="{ errors, valid }"
-          name="ボード名"
-        >
-          <v-text-field
-            label="ボード名を入力"
-            color="grey"
-            v-model="targetBoardName"
-            :error-messages="errors"
-            :success="valid"
-          ></v-text-field>
-          <v-btn
-            color="green lighten-2"
-            dark
-            class="ml-2"
-            :disabled="invalid"
-            @click="editBoard"
-            >ボード名を変更</v-btn
-          >
-        </ValidationProvider>
-      </v-form>
-    </ValidationObserver>
+    <v-form v-show="boardShow">
+      <v-text-field label="ボード名を入力" color="grey" v-model="targetBoardName"></v-text-field>
+      <v-btn color="green lighten-2" dark class="ml-2" @click="editBoard">ボード名を変更</v-btn>
+    </v-form>
 
     <!-- 既存ボード -->
     <v-container class="d-flex">
-      <v-card
-        width="230"
-        class="mx-1"
-        v-for="(tile, index) in board.tiles"
-        :key="index"
-      >
+      <v-card width="230" class="mx-1" v-for="(tile, index) in board.tiles" :key="index">
         <v-app-bar dark color="grey" dense>
           <v-toolbar-title>{{ tile.name }}</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -127,147 +101,43 @@
         </v-container>
       </v-card>
       <!-- リスト追加 -->
-      <ValidationObserver v-slot="{ invalid }">
-        <v-form>
-          <ValidationProvider
-            rules="required"
-            v-slot="{ errors, valid }"
-            name="リスト名"
-          >
-            <v-text-field
-              v-model="newTile.name"
-              label="+ リストを追加"
-              outlined
-              color="green"
-              class="shrink"
-              :error-messages="errors"
-              :success="valid"
-            ></v-text-field>
-          </ValidationProvider>
-          <v-btn
-            color="green lighten-2"
-            dark
-            class="ml-2"
-            :disabled="invalid"
-            @click="addTile"
-            >リストを追加</v-btn
-          >
-        </v-form>
-      </ValidationObserver>
+      <v-form>
+        <v-text-field v-model="newTile.name" label="+ リストを追加" outlined color="green" class="shrink"></v-text-field>
+        <v-btn color="green lighten-2" dark class="ml-2" @click="addTile">リストを追加</v-btn>
+      </v-form>
     </v-container>
 
-    <!-- 
-    <-- トランジション関連 --
-    <ValidationObserver v-slot="{ invalid }">
-      <ValidationProvider
-        rules="required"
-        v-slot="{ errors, valid }"
-        name="リスト名"
-      >
-      </ValidationProvider>
-    </ValidationObserver>
-    -->
-
     <!-- リスト名変更 -->
-    <ValidationObserver v-slot="{ invalid }">
-      <v-form v-show="tileShow">
-        <ValidationProvider
-          rules="required"
-          v-slot="{ errors, valid }"
-          name="リスト名"
-        >
-          <v-text-field
-            label="リスト名を入力"
-            color="grey"
-            v-model="targetTile.name"
-            :error-messages="errors"
-            :success="valid"
-          ></v-text-field>
-          <v-btn
-            color="green lighten-2"
-            dark
-            :disabled="invalid"
-            class="ml-2"
-            @click="editTile"
-            >リスト名を変更</v-btn
-          >
-        </ValidationProvider>
-      </v-form>
-    </ValidationObserver>
+    <v-form v-show="tileShow">
+      <v-text-field label="リスト名を入力" color="grey" v-model="targetTile.name"></v-text-field>
+      <v-btn color="green lighten-2" dark class="ml-2" @click="editTile">リスト名を変更</v-btn>
+    </v-form>
 
     <!-- カード名変更 -->
-    <ValidationObserver v-slot="{ invalid }">
-      <v-form v-show="cardShow">
-        <ValidationProvider
-          rules="required"
-          v-slot="{ errors, valid }"
-          name="カード名"
-        >
-          <v-text-field
-            label="カード名を入力"
-            color="grey"
-            v-model="targetCard.name"
-            :error-messages="errors"
-            :success="valid"
-          ></v-text-field>
-          <v-btn
-            color="green lighten-2"
-            dark
-            :disabled="invalid"
-            class="ml-2"
-            @click="editCard"
-            >カード名を変更</v-btn
-          >
-        </ValidationProvider>
-      </v-form>
-    </ValidationObserver>
+    <v-form v-show="cardShow">
+      <v-text-field label="カード名を入力" color="grey" v-model="targetCard.name"></v-text-field>
+      <v-btn color="green lighten-2" dark class="ml-2" @click="editCard">カード名を変更</v-btn>
+    </v-form>
   </v-app>
 </template>
 
 <script>
 import Draggable from "vuedraggable";
 import { mapActions } from "vuex";
-// import { required } from "vee-validate/dist/rules";
-import ja from "vee-validate/dist/locale/ja.json";
-import {
-  extend,
-  localize,
-  ValidationProvider,
-  ValidationObserver,
-} from "vee-validate";
-
-// バリデーションルール
-extend("required", (value) => {
-  if (value) {
-    return true;
-  }
-  return false;
-});
-// Localization
-localize("ja", ja);
 
 export default {
   components: {
     Draggable,
-    ValidationProvider,
-    ValidationObserver,
   },
   data() {
     return {
+      board: {},
       tileShow: false,
       boardShow: false,
       cardShow: false,
       targetBoardName: "",
-      targetTile: {
-        tile_id: null,
-        name: null,
-        board_id: null,
-      },
-      targetCard: {
-        card_id: null,
-        name: null,
-        tile_id: null,
-      },
+      targetTile: {},
+      targetCard: {},
 
       newTile: {
         name: "",
@@ -276,7 +146,6 @@ export default {
       newCard: {
         name: "new card",
       },
-      board: {},
     };
   },
   props: {
@@ -309,6 +178,10 @@ export default {
     },
     // Edits
     editBoard() {
+      const valid = /^\w/.test(this.targetBoardName);
+      if (!valid) {
+        return;
+      }
       this.board.name = this.targetBoardName;
       this.$store.dispatch("updateBoard", this.board);
       this.$router.push({
@@ -319,11 +192,19 @@ export default {
       this.boardShow = false;
     },
     editTile() {
+      const valid = /^\w/.test(this.targetTile.name);
+      if (!valid) {
+        return;
+      }
       this.$store.dispatch("updateTile", this.targetTile);
       this.targetTile = {};
       this.tileShow = false;
     },
     editCard() {
+      const valid = /^\w/.test(this.targetCard.name);
+      if (!valid) {
+        return;
+      }
       this.$store.dispatch("updateCard", {
         board_id: this.board.board_id,
         card: this.targetCard,
@@ -345,10 +226,14 @@ export default {
     },
     // Adds
     addTile() {
+      const valid = /^\w/.test(this.newTile.name);
+      if (!valid) {
+        return;
+      }
       this.newTile.board_id = this.board.board_id;
       this.$store.dispatch("addTile", this.newTile);
       this.newTile = {
-        name: null,
+        name: "",
         cards: [],
       };
     },
