@@ -93,7 +93,6 @@ public class TodoController {
      * @return引数のboardを返す
      */
     @PutMapping("/board")
-    @CrossOrigin("http://192.168.43.150:8081")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Board updateBoard(@RequestBody @Validated PutBoardForm form, BindingResult result) {
         if (result.hasErrors()) {
@@ -112,7 +111,6 @@ public class TodoController {
      * @return引数のtileを返す
      */
     @PutMapping("/tile")
-    @CrossOrigin("http://192.168.43.150:8081")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Tile updateTile(@RequestBody @Validated PutTileForm form, BindingResult result) {
         if (result.hasErrors()) {
@@ -131,7 +129,6 @@ public class TodoController {
      * @return 引数のcardを返す
      */
     @PutMapping("/card")
-    @CrossOrigin("http://192.168.43.150:8081")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Card updateCard(@RequestBody @Validated PutCardForm form, BindingResult result) {
         if (result.hasErrors()) {
@@ -159,7 +156,6 @@ public class TodoController {
      * @return
      */
     @PutMapping("/tiles")
-    @CrossOrigin("http://192.168.43.150:8081")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String updateTiles(@RequestBody List<Tile> tiles) {
         todoService.update(tiles);
@@ -176,7 +172,6 @@ public class TodoController {
      * @return引数のboardを返す
      */
     @DeleteMapping("/board/{id}")
-    @CrossOrigin("http://192.168.43.150:8081")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBoard(@PathVariable("id") String id) {
         if (Objects.isNull(id)) {
@@ -200,7 +195,6 @@ public class TodoController {
      * @return引数のtileを返す
      */
     @DeleteMapping("/tile/{id}")
-    @CrossOrigin("http://192.168.43.150:8081")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTile(@PathVariable("id") String id) {
         if (Objects.isNull(id)) {
@@ -224,7 +218,6 @@ public class TodoController {
      * @return 引数のcardを返す
      */
     @DeleteMapping("/card/{id}")
-    @CrossOrigin("http://192.168.43.150:8081")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCard(@PathVariable("id") String id) {
         if (Objects.isNull(id)) {
