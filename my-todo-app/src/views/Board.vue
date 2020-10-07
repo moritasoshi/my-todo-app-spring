@@ -118,11 +118,13 @@
       <v-text-field label="カード名を入力" color="grey" v-model="targetCard.name"></v-text-field>
       <v-btn color="green lighten-2" dark class="ml-2" @click="editCard">カード名を変更</v-btn>
     </v-form>
+
   </v-app>
 </template>
 
 <script>
 import Draggable from "vuedraggable";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -155,8 +157,9 @@ export default {
   },
   computed: {
     board() {
-      return this.$store.getters.getBoardByName(this.slug);
+      return this.getBoardByName(this.slug);
     },
+    ...mapGetters(["getBoardByName"])
   },
   created() {
     // this.board = this.$store.getters.getBoardByName(this.slug);
@@ -286,13 +289,6 @@ export default {
       const boardId = this.board.board_id;
       const card = this.board.tiles[tileIndex].cards[cardIndex];
       this.$store.dispatch("deleteCard", { board_id: boardId, card: card });
-    },
-    uuid() {
-      return "xxxxxxxxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-        var r = (Math.random() * 16) | 0,
-          v = c == "x" ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-      });
     },
   },
 };

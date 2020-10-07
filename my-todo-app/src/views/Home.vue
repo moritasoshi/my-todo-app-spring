@@ -49,9 +49,6 @@ export default {
     };
   },
   computed: {
-    boards() {
-      return this.boards;
-    },
     ...mapGetters(["boards"]),
   },
   methods: {

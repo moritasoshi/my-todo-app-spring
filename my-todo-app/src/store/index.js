@@ -24,10 +24,9 @@ export default new Vuex.Store({
       state.boards.push(board);
     },
     addTile(state, tile) {
-      const index = state.boards.findIndex(
-        (elem) => elem.board_id === tile.board_id
-      );
-      state.boards[index].tiles.push(tile);
+      state.boards
+        .find((elem) => elem.board_id === tile.board_id)
+        .tiles.push(tile);
     },
     addCard(state, { board_id, card }) {
       state.boards
@@ -61,13 +60,15 @@ export default new Vuex.Store({
     },
     deleteTile(state, tile) {
       const boardIndex = state.boards.findIndex(
-        (elem) => (elem.board_id = tile.board_id)
+        (elem) => elem.board_id === tile.board_id
       );
       const tileIndex = state.boards[boardIndex].tiles.findIndex(
-        (elem) => elem.tile_id == tile.tile_id
+        (elem) => elem.tile_id === tile.tile_id
       );
 
-      state.boards[boardIndex].tiles.splice(tileIndex, 1);
+      state.boards
+        .find((elem) => elem.board_id === tile.board_id)
+        .tiles.splice(tileIndex, 1);
     },
     deleteCard(state, { board_id, card }) {
       const boardIndex = state.boards.findIndex(
