@@ -118,7 +118,6 @@
       <v-text-field label="カード名を入力" color="grey" v-model="targetCard.name"></v-text-field>
       <v-btn color="green lighten-2" dark class="ml-2" @click="editCard">カード名を変更</v-btn>
     </v-form>
-
   </v-app>
 </template>
 
@@ -149,17 +148,20 @@ export default {
       },
     };
   },
-  props: {
-    slug: {
-      type: String,
-      required: true,
-    },
-  },
+  // props: {
+  //   slug: {
+  //     type: String,
+  //     required: true,
+  //   },
+  // },
   computed: {
+    slug() {
+      return this.$route.params.slug;
+    },
     board() {
       return this.getBoardByName(this.slug);
     },
-    ...mapGetters(["getBoardByName"])
+    ...mapGetters(["getBoardByName"]),
   },
   created() {
     // this.board = this.$store.getters.getBoardByName(this.slug);
