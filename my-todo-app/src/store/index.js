@@ -24,9 +24,13 @@ export default new Vuex.Store({
       state.boards.push(board);
     },
     addTile(state, tile) {
-      state.boards
-        .find((elem) => elem.board_id === tile.board_id)
-        .tiles.push(tile);
+      var newBoardIndex = state.boards.findIndex(
+        (elem) => elem.board_id === tile.board_id
+      );
+      var newBoard = state.boards[newBoardIndex];
+      newBoard.tiles.push(tile);
+
+      state.boards.splice(newBoardIndex, 1, newBoard);
     },
     addCard(state, { board_id, card }) {
       state.boards
@@ -104,7 +108,8 @@ export default new Vuex.Store({
       commit("deleteBoards");
     },
     fetchBoards({ commit, getters }) {
-      const uri = "http://localhost:8080/api/boards";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/boards";
       axios
         .get(uri + "/" + getters.uid)
         .then((responce) => {
@@ -118,7 +123,8 @@ export default new Vuex.Store({
     },
     // Adds
     addBoard({ commit }, board) {
-      const uri = "http://localhost:8080/api/board";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/board";
       axios
         .post(uri, board)
         .then((responce) => {
@@ -131,7 +137,8 @@ export default new Vuex.Store({
         });
     },
     addTile({ commit }, tile) {
-      const uri = "http://localhost:8080/api/tile";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/tile";
       axios
         .post(uri, tile)
         .then((responce) => {
@@ -144,7 +151,8 @@ export default new Vuex.Store({
         });
     },
     addCard({ commit }, { board_id, card }) {
-      const uri = "http://localhost:8080/api/card";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/card";
       axios
         .post(uri, card)
         .then((responce) => {
@@ -156,7 +164,8 @@ export default new Vuex.Store({
     },
     // Updates
     updateBoard({ commit }, board) {
-      const uri = "http://localhost:8080/api/board";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/board";
       axios
         .put(uri, board)
         .then(() => {
@@ -167,7 +176,8 @@ export default new Vuex.Store({
         });
     },
     updateTile({ commit }, tile) {
-      const uri = "http://localhost:8080/api/tile";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/tile";
       axios
         .put(uri, tile)
         .then(() => {
@@ -178,7 +188,8 @@ export default new Vuex.Store({
         });
     },
     updateCard({ commit }, { board_id, card }) {
-      const uri = "http://localhost:8080/api/card";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/card";
       axios
         .put(uri, card)
         .then(() => {
@@ -189,7 +200,8 @@ export default new Vuex.Store({
         });
     },
     updateTiles({ commit }, { board_id, tiles }) {
-      const uri = "http://localhost:8080/api/tiles";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/tiles";
       axios
         .put(uri, tiles)
         .then(() => {
@@ -201,7 +213,8 @@ export default new Vuex.Store({
     },
     // Deletes
     deleteBoard({ commit }, board) {
-      const uri = "http://localhost:8080/api/board";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/board";
       axios
         .delete(uri + "/" + board.board_id)
         .then(() => {
@@ -212,7 +225,8 @@ export default new Vuex.Store({
         });
     },
     deleteTile({ commit }, tile) {
-      const uri = "http://localhost:8080/api/tile";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/tile";
       axios
         .delete(uri + "/" + tile.tile_id)
         .then(() => {
@@ -223,7 +237,8 @@ export default new Vuex.Store({
         });
     },
     deleteCard({ commit }, { board_id, card }) {
-      const uri = "http://localhost:8080/api/card";
+      const uri =
+        "http://ec2-3-113-190-197.ap-northeast-1.compute.amazonaws.com:8080/api/card";
       axios
         .delete(uri + "/" + card.card_id)
         .then(() => {
