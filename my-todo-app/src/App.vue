@@ -32,7 +32,7 @@ export default {
       } else {
         this.deleteLoginUser();
         this.deleteBoards();
-        this.$router.push({ name: "home" }, () => {});
+        this.$router.push({ name: "login" }, () => {});
       }
     });
   },
