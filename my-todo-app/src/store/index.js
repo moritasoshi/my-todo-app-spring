@@ -92,7 +92,7 @@ export default new Vuex.Store({
     // Firebase Authentication
     login() {
       const google_auth_provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithRedirect(google_auth_provider);
+      firebase.auth().signInWithPopup(google_auth_provider);
     },
     logout() {
       firebase.auth().signOut();
