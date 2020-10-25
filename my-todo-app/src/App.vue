@@ -26,6 +26,7 @@ export default {
   created() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        this.$router.push({ name: "home" }, () => {});
         this.setLoginUser(user);
         this.fetchBoards();
       } else {
