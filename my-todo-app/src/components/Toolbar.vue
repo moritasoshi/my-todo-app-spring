@@ -7,17 +7,13 @@
     </v-toolbar-items>
     <v-spacer></v-spacer>
 
-    <v-toolbar-title dark>
-      My Board App
-    </v-toolbar-title>
+    <v-toolbar-title dark>My Board App</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items v-if="$store.state.login_user">
-      <v-btn text @click="logout">
-        Logout
-      </v-btn>
+      <v-btn text @click="logout" style="text-transform: none;">Logout</v-btn>
     </v-toolbar-items>
     <v-toolbar-items v-else>
-      <v-btn text @click="login">Sign in</v-btn>
+      <v-btn text class="signin-btn" @click="toLogin" style="text-transform: none;">Sign in</v-btn>
     </v-toolbar-items>
 
     <v-list-item-avatar>
@@ -32,10 +28,15 @@ export default {
   methods: {
     toHome() {
       if (this.$router.currentRoute.name !== "home") {
-        this.$router.push({ name: "home" }); // -> /
+        this.$router.push({ name: "home" });
       }
     },
-    ...mapActions(["login", "logout"]),
+    toLogin() {
+      if (this.$router.currentRoute.name !== "login") {
+        this.$router.push({ name: "login" });
+      }
+    },
+    ...mapActions(["logout"]),
   },
   computed: {
     ...mapGetters(["photoURL"]),
@@ -43,4 +44,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+</style>
