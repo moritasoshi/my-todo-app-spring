@@ -23,55 +23,56 @@
 
     <!-- 既存ボード -->
     <v-container class="d-flex">
-      <v-card width="230" class="mx-1" v-for="(tile, index) in board.tiles" :key="index">
-        <v-app-bar dark color="grey" dense>
-          <v-toolbar-title>{{ tile.name }}</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <template>
-            <v-btn
-              color="white"
-              class="ma-2"
-              icon
-              @click="
+      <draggable group="all-tiles" :list="tiles" class="d-flex">
+        <v-card width="230" class="mx-1" v-for="(tile, index) in board.tiles" :key="index">
+          <v-app-bar dark color="grey" dense>
+            <v-toolbar-title>{{ tile.name }}</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <template>
+              <v-btn
+                color="white"
+                class="ma-2"
+                icon
+                @click="
                 showTile({
                   tileId: tile.tile_id,
                   tileName: tile.name,
                 })
               "
-            >
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </template>
-          <template>
-            <v-btn
-              icon
-              @click="
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+            <template>
+              <v-btn
+                icon
+                @click="
                 deleteTile({
                   tileId: tile.tile_id,
                 })
               "
-            >
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          </template>
-        </v-app-bar>
-        <v-container>
-          <draggable group="all-tasks" :list="tile.cards">
-            <v-card
-              v-for="(card, i) in tile.cards"
-              :key="i"
-              width="220"
-              hover
-              class="d-flex my-card"
-            >
-              <v-card-text color="black" v-text="card.name"></v-card-text>
-              <v-card-actions>
-                <template>
-                  <v-btn
-                    color="green lighten-2"
-                    class="ma-2"
-                    icon
-                    @click="
+              >
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </template>
+          </v-app-bar>
+          <v-container>
+            <draggable group="all-tasks" :list="tile.cards">
+              <v-card
+                v-for="(card, i) in tile.cards"
+                :key="i"
+                width="220"
+                hover
+                class="d-flex my-card"
+              >
+                <v-card-text color="black" v-text="card.name"></v-card-text>
+                <v-card-actions>
+                  <template>
+                    <v-btn
+                      color="green lighten-2"
+                      class="ma-2"
+                      icon
+                      @click="
                       showCard({
                         cardId: card.card_id,
                         cardName: card.name,
@@ -79,27 +80,28 @@
                         indicator: card.indicator,
                       })
                     "
-                  >
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                </template>
-                <v-btn
-                  icon
-                  @click="
+                    >
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-btn
+                    icon
+                    @click="
                     deleteCard({
                       tileId: tile.tile_id,
                       cardId: card.card_id,
                     })
                   "
-                >
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </draggable>
-          <v-btn @click="addCard(tile.tile_id)">Add</v-btn>
-        </v-container>
-      </v-card>
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </draggable>
+            <v-btn @click="addCard(tile.tile_id)">Add</v-btn>
+          </v-container>
+        </v-card>
+      </draggable>
       <!-- リスト追加 -->
       <v-form>
         <v-text-field v-model="newTile.name" label="+ リストを追加" outlined color="green" class="shrink"></v-text-field>
