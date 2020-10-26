@@ -190,8 +190,9 @@ export default {
       if (!valid) {
         return;
       }
-      this.board.name = this.targetBoardName;
-      this.$store.dispatch("updateBoard", this.board);
+      var newBoard = this.board;
+      newBoard.name = this.targetBoardName;
+      this.$store.dispatch("updateBoard", newBoard);
       this.$router.push({
         name: "board",
         params: { slug: this.targetBoardName },
