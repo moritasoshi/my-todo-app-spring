@@ -36,6 +36,17 @@ public class TodoService {
     }
 
     public Tile create(Tile tile) {
+        // indicatorの設定
+        // tile_idが一致するカードのMAX(indicator)を取得
+        Integer maxIndicator = cardMapper.getMaxIndicator(tile.getBoard_id());
+        if (Objects.isNull(maxIndicator)) {
+            maxIndicator = 0;
+        } else {
+            maxIndicator += 1;
+        }
+        tile.setIndicator(maxIndicator);
+
+        // DB更新
         tileMapper.create(tile);
         Integer id = tileMapper.getLastInsertId();
         tile.setTile_id(id);
@@ -76,6 +87,11 @@ public class TodoService {
     }
 
     public void update(List<Tile> tiles) {
+        // update tiles
+        tiles.stream()
+                .forEach(tile -> tileMapper.update(tile));
+
+        // update cards
         tiles.stream()
                 .flatMap(tile -> tile.getCards().stream())
                 .forEach(card -> cardMapper.update(card));
@@ -149,6 +165,20 @@ public class TodoService {
 
         // 自分以外のカードとIndicatorが一致してしまう場合はindicatorの重複を通知
         if (indicators.contains(card.getIndicator())) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasDuplicateIndicator(Tile tile) {
+        List<Integer> indicators = tileMapper.getTilesByBoardId(tile.getBoard_id())
+                .stream()
+                .filter(tile1 -> tile1.getTile_id() != tile.getTile_id()) // 自分以外のタイルに絞り込み
+                .map(Tile::getIndicator)
+                .collect(Collectors.toList());
+
+        // 自分以外のタイルとIndicatorが一致してしまう場合はindicatorの重複を通知
+        if (indicators.contains(tile.getIndicator())) {
             return true;
         }
         return false;

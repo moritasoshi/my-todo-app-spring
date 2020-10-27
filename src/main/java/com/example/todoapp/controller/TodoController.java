@@ -118,8 +118,13 @@ public class TodoController {
         }
 
         Tile tile = form.toTile();
+        // tile_idが存在しない場合
         if (!todoService.containsTileId(tile.getTile_id())) {
             throw new ConflictException(String.format("Conflict[tile_id: %s doesn't exist]", tile.getTile_id()));
+        }
+        // 任意のboardでindicatorが重複している場合
+        if (todoService.hasDuplicateIndicator(tile)) {
+            throw new ConflictException(String.format("Conflict[Duplicate indicator: %s]", tile.getIndicator()));
         }
         return todoService.update(tile);
     }
