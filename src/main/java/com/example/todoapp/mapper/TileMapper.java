@@ -24,6 +24,11 @@ public interface TileMapper {
     Integer getLastInsertId();
 
     /**
+     * board_idが一致するタイルのindicatorの最大値を取得する
+     */
+    Integer getMaxIndicator(Integer board_id);
+
+    /**
      * Tile名の変更
      * @param tile
      */
