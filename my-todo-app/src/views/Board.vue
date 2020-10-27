@@ -37,6 +37,7 @@
                 showTile({
                   tileId: tile.tile_id,
                   tileName: tile.name,
+                  indicator: tile.indicator
                 })
               "
               >
@@ -173,11 +174,12 @@ export default {
     showBoard() {
       this.boardShow = !this.boardShow;
     },
-    showTile({ tileId, tileName }) {
+    showTile({ tileId, tileName, indicator }) {
       this.tileShow = !this.tileShow;
       this.targetTile.tile_id = tileId;
       this.targetTile.name = tileName;
       this.targetTile.board_id = this.board.board_id;
+      this.targetTile.indicator = indicator;
     },
     showCard({ cardId, cardName, tileId, indicator }) {
       this.cardShow = !this.cardShow;
@@ -224,7 +226,8 @@ export default {
       this.cardShow = false;
     },
     updateTiles() {
-      this.board.tiles.forEach((tile) => {
+      this.board.tiles.forEach((tile, index) => {
+        tile.indicator = index;
         tile.cards.forEach((card, index) => {
           card.tile_id = tile.tile_id;
           card.indicator = index;
