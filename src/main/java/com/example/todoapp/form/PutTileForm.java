@@ -26,6 +26,12 @@ public class PutTileForm {
      */
     private String board_id;
     /**
+     * 所属するボードでのインデックス値
+     */
+    @NotBlank
+    @Pattern(regexp = "^\\d+$")
+    private String indicator;
+    /**
      * 内包するカードの一覧
      */
     private List<Card> cards;

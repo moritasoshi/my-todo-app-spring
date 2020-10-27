@@ -31,6 +31,11 @@ public class TileForm {
     private String board_id;
 
     /**
+     * 所属するボードでのインデックス値
+     */
+    private String indicator;
+
+    /**
      * 内包するカードの一覧
      */
     private List<Card> cards;

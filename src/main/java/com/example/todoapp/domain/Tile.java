@@ -22,6 +22,10 @@ public class Tile {
      */
     private Integer board_id;
     /**
+     * 所属するボードでのインデックス値
+     */
+    private Integer indicator;
+    /**
      * 内包するカードの一覧
      */
     private List<Card> cards;
