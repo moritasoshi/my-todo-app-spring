@@ -50,3 +50,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+* :not(.v-icon) {
+  font-family: Arial;
+}
+</style>
