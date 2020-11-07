@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     login_user: null,
     boards: [],
+    BASE_URL: "http://apitodoapp.umajaga.com:8080",
   },
   mutations: {
     setLoginUser(state, user) {
@@ -108,10 +109,9 @@ export default new Vuex.Store({
       commit("deleteBoards");
     },
     fetchBoards({ commit, getters }) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/boards";
+      const url = this.state.BASE_URL + "/api/boards";
       axios
-        .get(uri + "/" + getters.uid)
+        .get(url + "/" + getters.uid)
         .then((responce) => {
           responce.data.forEach(function(doc) {
             commit("addBoard", doc);
@@ -123,10 +123,9 @@ export default new Vuex.Store({
     },
     // Adds
     addBoard({ commit }, board) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/board";
+      const url = this.state.BASE_URL + "/api/board";
       axios
-        .post(uri, board)
+        .post(url, board)
         .then((responce) => {
           board.board_id = responce.data.board_id;
           board.tiles = [];
@@ -137,10 +136,9 @@ export default new Vuex.Store({
         });
     },
     addTile({ commit }, tile) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/tile";
+      const url = this.state.BASE_URL + "/api/tile";
       axios
-        .post(uri, tile)
+        .post(url, tile)
         .then((responce) => {
           tile.tile_id = responce.data.tile_id;
           tile.cards = [];
@@ -151,10 +149,9 @@ export default new Vuex.Store({
         });
     },
     addCard({ commit }, { board_id, card }) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/card";
+      const url = this.state.BASE_URL + "/api/card";
       axios
-        .post(uri, card)
+        .post(url, card)
         .then((responce) => {
           commit("addCard", { board_id: board_id, card: responce.data });
         })
@@ -164,10 +161,9 @@ export default new Vuex.Store({
     },
     // Updates
     updateBoard({ commit }, board) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/board";
+      const url = this.state.BASE_URL + "/api/board";
       axios
-        .put(uri, board)
+        .put(url, board)
         .then(() => {
           commit("updateBoard", board);
         })
@@ -176,10 +172,9 @@ export default new Vuex.Store({
         });
     },
     updateTile({ commit }, tile) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/tile";
+      const url = this.state.BASE_URL + "/api/tile";
       axios
-        .put(uri, tile)
+        .put(url, tile)
         .then(() => {
           commit("updateTile", tile);
         })
@@ -188,10 +183,9 @@ export default new Vuex.Store({
         });
     },
     updateCard({ commit }, { board_id, card }) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/card";
+      const url = this.state.BASE_URL + "/api/card";
       axios
-        .put(uri, card)
+        .put(url, card)
         .then(() => {
           commit("updateCard", { board_id: board_id, card: card });
         })
@@ -200,10 +194,9 @@ export default new Vuex.Store({
         });
     },
     updateTiles({ commit }, { board_id, tiles }) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/tiles";
+      const url = this.state.BASE_URL + "/api/tiles";
       axios
-        .put(uri, tiles)
+        .put(url, tiles)
         .then(() => {
           commit("updateTiles", { board_id: board_id, tiles: tiles });
         })
@@ -213,10 +206,9 @@ export default new Vuex.Store({
     },
     // Deletes
     deleteBoard({ commit }, board) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/board";
+      const url = this.state.BASE_URL + "/api/board";
       axios
-        .delete(uri + "/" + board.board_id)
+        .delete(url + "/" + board.board_id)
         .then(() => {
           commit("deleteBoard", board);
         })
@@ -225,10 +217,9 @@ export default new Vuex.Store({
         });
     },
     deleteTile({ commit }, tile) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/tile";
+      const url = this.state.BASE_URL + "/api/tile";
       axios
-        .delete(uri + "/" + tile.tile_id)
+        .delete(url + "/" + tile.tile_id)
         .then(() => {
           commit("deleteTile", tile);
         })
@@ -237,10 +228,9 @@ export default new Vuex.Store({
         });
     },
     deleteCard({ commit }, { board_id, card }) {
-      const uri =
-        "http://apitodoapp.umajaga.com:8080/api/card";
+      const url = this.state.BASE_URL + "/api/card";
       axios
-        .delete(uri + "/" + card.card_id)
+        .delete(url + "/" + card.card_id)
         .then(() => {
           commit("deleteCard", { board_id: board_id, card: card });
         })
