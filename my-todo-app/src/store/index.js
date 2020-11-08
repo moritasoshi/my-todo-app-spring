@@ -118,7 +118,7 @@ export default new Vuex.Store({
         .then((response) => {
           const auth = response.headers['authorization'];
           console.log(auth)
-          commit("setAuthentication", auth);
+          commit("setAuthorization", auth);
         })
         .catch(function(error) {
           console.log("Error getting data: ", error);
