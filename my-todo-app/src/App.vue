@@ -28,6 +28,7 @@ export default {
       if (user) {
         this.$router.push({ name: "home" }, () => {});
         this.setLoginUser(user);
+        this.loginApi(user);
         this.fetchBoards();
       } else {
         this.deleteLoginUser();
@@ -43,6 +44,7 @@ export default {
     ...mapActions([
       "fetchBoards",
       "setLoginUser",
+      "loginApi",
       "logout",
       "deleteLoginUser",
       "deleteBoards",

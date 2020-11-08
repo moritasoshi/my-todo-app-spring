@@ -9,7 +9,8 @@ export default new Vuex.Store({
   state: {
     login_user: null,
     boards: [],
-    BASE_URL: "http://apitodoapp.umajaga.com:8080",
+    BASE_URL: "http://localhost:8080",
+    authorization: null,
   },
   mutations: {
     setLoginUser(state, user) {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     },
     deleteLoginUser(state) {
       state.login_user = null;
+    },
+    setAuthorization(state, auth) {
+      state.authorization = auth;
     },
     deleteBoards(state) {
       state.boards = [];
@@ -104,6 +108,23 @@ export default new Vuex.Store({
     deleteLoginUser({ commit }) {
       commit("deleteLoginUser");
     },
+    loginApi({ commit }, user) {
+      const url = this.state.BASE_URL + "/login";
+      var reqUser = {};
+      reqUser.uid = user.uid;
+      reqUser.password = "password";
+      axios
+        .post(url, reqUser)
+        .then((response) => {
+          const auth = response.headers['authorization'];
+          console.log(auth)
+          commit("setAuthentication", auth);
+        })
+        .catch(function(error) {
+          console.log("Error getting data: ", error);
+        });
+    },
+
     // Boards
     deleteBoards({ commit }) {
       commit("deleteBoards");
