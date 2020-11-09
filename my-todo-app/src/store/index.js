@@ -28,6 +28,10 @@ export default new Vuex.Store({
       state.token = auth;
       state.requestConfig.headers.Authorization = auth;
     },
+    deleteToken(state) {
+      state.token = null;
+      state.requestConfig.headers.Authorization = null;
+    },
     deleteBoards(state) {
       state.boards = [];
     },

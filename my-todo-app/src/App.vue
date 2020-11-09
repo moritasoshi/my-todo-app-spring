@@ -32,6 +32,7 @@ export default {
         this.$store.dispatch("fetchBoards");
       } else {
         this.deleteLoginUser();
+        this.deleteToken();
         this.deleteBoards();
         this.$router.push({ name: "login" }, () => {});
       }
@@ -43,6 +44,7 @@ export default {
   methods: {
     ...mapActions([
       "fetchBoards",
+      "deleteToken",
       "setLoginUser",
       "loginApi",
       "logout",
