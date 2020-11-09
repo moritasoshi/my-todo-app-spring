@@ -147,7 +147,7 @@ export default new Vuex.Store({
     addBoard({ commit }, board) {
       const url = this.state.BASE_URL + "/api/board";
       axios
-        .post(url, board)
+        .post(url, board, this.state.requestConfig)
         .then((responce) => {
           board.board_id = responce.data.board_id;
           board.tiles = [];
@@ -160,7 +160,7 @@ export default new Vuex.Store({
     addTile({ commit }, tile) {
       const url = this.state.BASE_URL + "/api/tile";
       axios
-        .post(url, tile)
+        .post(url, tile, this.state.requestConfig)
         .then((responce) => {
           tile.tile_id = responce.data.tile_id;
           tile.cards = [];
@@ -173,7 +173,7 @@ export default new Vuex.Store({
     addCard({ commit }, { board_id, card }) {
       const url = this.state.BASE_URL + "/api/card";
       axios
-        .post(url, card)
+        .post(url, card, this.state.requestConfig)
         .then((responce) => {
           commit("addCard", { board_id: board_id, card: responce.data });
         })
@@ -185,7 +185,7 @@ export default new Vuex.Store({
     updateBoard({ commit }, board) {
       const url = this.state.BASE_URL + "/api/board";
       axios
-        .put(url, board)
+        .put(url, board, this.state.requestConfig)
         .then(() => {
           commit("updateBoard", board);
         })
@@ -196,7 +196,7 @@ export default new Vuex.Store({
     updateTile({ commit }, tile) {
       const url = this.state.BASE_URL + "/api/tile";
       axios
-        .put(url, tile)
+        .put(url, tile, this.state.requestConfig)
         .then(() => {
           commit("updateTile", tile);
         })
@@ -207,7 +207,7 @@ export default new Vuex.Store({
     updateCard({ commit }, { board_id, card }) {
       const url = this.state.BASE_URL + "/api/card";
       axios
-        .put(url, card)
+        .put(url, card, this.state.requestConfig)
         .then(() => {
           commit("updateCard", { board_id: board_id, card: card });
         })
@@ -218,7 +218,7 @@ export default new Vuex.Store({
     updateTiles({ commit }, { board_id, tiles }) {
       const url = this.state.BASE_URL + "/api/tiles";
       axios
-        .put(url, tiles)
+        .put(url, tiles, this.state.requestConfig)
         .then(() => {
           commit("updateTiles", { board_id: board_id, tiles: tiles });
         })
@@ -228,9 +228,9 @@ export default new Vuex.Store({
     },
     // Deletes
     deleteBoard({ commit }, board) {
-      const url = this.state.BASE_URL + "/api/board";
+      const url = this.state.BASE_URL + "/api/board/" + board.board_id;
       axios
-        .delete(url + "/" + board.board_id)
+        .delete(url, this.state.requestConfig)
         .then(() => {
           commit("deleteBoard", board);
         })
@@ -239,9 +239,9 @@ export default new Vuex.Store({
         });
     },
     deleteTile({ commit }, tile) {
-      const url = this.state.BASE_URL + "/api/tile";
+      const url = this.state.BASE_URL + "/api/tile/" + tile.tile_id;
       axios
-        .delete(url + "/" + tile.tile_id)
+        .delete(url, this.state.requestConfig)
         .then(() => {
           commit("deleteTile", tile);
         })
@@ -250,9 +250,9 @@ export default new Vuex.Store({
         });
     },
     deleteCard({ commit }, { board_id, card }) {
-      const url = this.state.BASE_URL + "/api/card";
+      const url = this.state.BASE_URL + "/api/card/" + card.card_id;
       axios
-        .delete(url + "/" + card.card_id)
+        .delete(url, this.state.requestConfig)
         .then(() => {
           commit("deleteCard", { board_id: board_id, card: card });
         })
