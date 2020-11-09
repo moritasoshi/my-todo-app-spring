@@ -24,12 +24,12 @@ export default {
     Toolbar,
   },
   created() {
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         this.$router.push({ name: "home" }, () => {});
         this.setLoginUser(user);
-        this.loginApi(user);
-        this.fetchBoards();
+        await this.$store.dispatch("loginApi", user);
+        this.$store.dispatch("fetchBoards");
       } else {
         this.deleteLoginUser();
         this.deleteBoards();

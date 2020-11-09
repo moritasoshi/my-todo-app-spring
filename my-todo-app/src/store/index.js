@@ -10,7 +10,12 @@ export default new Vuex.Store({
     login_user: null,
     boards: [],
     BASE_URL: "http://localhost:8080",
-    authorization: null,
+    token: null,
+    requestConfig: {
+      headers: {
+        Authorization: null,
+      },
+    },
   },
   mutations: {
     setLoginUser(state, user) {
@@ -19,8 +24,9 @@ export default new Vuex.Store({
     deleteLoginUser(state) {
       state.login_user = null;
     },
-    setAuthorization(state, auth) {
-      state.authorization = auth;
+    setToken(state, auth) {
+      state.token = auth;
+      state.requestConfig.headers.Authorization = auth;
     },
     deleteBoards(state) {
       state.boards = [];
@@ -108,21 +114,16 @@ export default new Vuex.Store({
     deleteLoginUser({ commit }) {
       commit("deleteLoginUser");
     },
-    loginApi({ commit }, user) {
+    async loginApi({ commit }, user) {
       const url = this.state.BASE_URL + "/login";
-      var reqUser = {};
-      reqUser.uid = user.uid;
-      reqUser.password = "password";
-      axios
-        .post(url, reqUser)
-        .then((response) => {
-          const auth = response.headers['authorization'];
-          console.log(auth)
-          commit("setAuthorization", auth);
-        })
-        .catch(function(error) {
-          console.log("Error getting data: ", error);
-        });
+      const reqUser = {
+        uid: user.uid,
+        password: "password",
+      };
+
+      const res = await axios.post(url, reqUser);
+      const token = res.headers["authorization"];
+      commit("setToken", token);
     },
 
     // Boards
@@ -132,7 +133,7 @@ export default new Vuex.Store({
     fetchBoards({ commit, getters }) {
       const url = this.state.BASE_URL + "/api/boards";
       axios
-        .get(url + "/" + getters.uid)
+        .get(url + "/" + getters.uid, this.state.requestConfig)
         .then((responce) => {
           responce.data.forEach(function(doc) {
             commit("addBoard", doc);
