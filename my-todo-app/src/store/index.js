@@ -9,7 +9,7 @@ export default new Vuex.Store({
   state: {
     login_user: null,
     boards: [],
-    BASE_URL: "http://localhost:8080",
+    BASE_URL: "http://apitodoapp.umajaga.com:8080",
     token: null,
     requestConfig: {
       headers: {
