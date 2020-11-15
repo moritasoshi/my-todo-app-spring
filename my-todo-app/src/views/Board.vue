@@ -7,24 +7,56 @@
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </template>
-      <template>
-        <v-btn icon @click="deleteBoard">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-      </template>
+      <v-dialog v-model="deleteBoardDialog" width="500">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title class="headline grey lighten-2">
+            削除しますか？
+          </v-card-title>
+          <v-card-text>
+            {{ board.name }}: 現在のボードを削除してもよろしいですか？
+            <br />※このリスト内の全てのリスト・カードも削除されます
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="deleteBoardDialog = false">
+              キャンセル
+            </v-btn>
+            <v-btn color="primary" text @click="deleteBoard">
+              削除する
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-spacer></v-spacer>
       <v-btn class="white--text" color="green" @click="updateTiles">save</v-btn>
     </v-container>
     <!-- ボード名変更 -->
     <v-form v-show="boardShow">
-      <v-text-field label="ボード名を入力" color="grey" v-model="targetBoardName"></v-text-field>
-      <v-btn color="green lighten-2" dark class="ml-2" @click="editBoard">ボード名を変更</v-btn>
+      <v-text-field
+        label="ボード名を入力"
+        color="grey"
+        v-model="targetBoardName"
+      ></v-text-field>
+      <v-btn color="green lighten-2" dark class="ml-2" @click="editBoard"
+        >ボード名を変更</v-btn
+      >
     </v-form>
 
     <!-- 既存ボード -->
     <v-container class="d-flex">
       <draggable group="all-tiles" :list="board.tiles" class="d-flex">
-        <v-card width="230" class="mx-1" v-for="(tile, index) in board.tiles" :key="index">
+        <v-card
+          width="230"
+          class="mx-1"
+          v-for="tile in board.tiles"
+          :key="tile.tile_id"
+        >
           <v-app-bar dark color="grey" dense>
             <v-toolbar-title>{{ tile.name }}</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -34,28 +66,50 @@
                 class="ma-2"
                 icon
                 @click="
-                showTile({
-                  tileId: tile.tile_id,
-                  tileName: tile.name,
-                  indicator: tile.indicator
-                })
-              "
+                  showTile({
+                    tileId: tile.tile_id,
+                    tileName: tile.name,
+                    indicator: tile.indicator,
+                  })
+                "
               >
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </template>
-            <template>
-              <v-btn
-                icon
-                @click="
-                deleteTile({
-                  tileId: tile.tile_id,
-                })
-              "
-              >
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </template>
+            <v-dialog v-model="deleteTileDialog" width="500">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="headline grey lighten-2">
+                  削除しますか？
+                </v-card-title>
+                <v-card-text>
+                  {{ tile.name }}: 現在のリストを削除してもよろしいですか？
+                  <br />※このリスト内の全てのカードも削除されます
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="deleteTileDialog = false">
+                    キャンセル
+                  </v-btn>
+                  <v-btn
+                    color="primary"
+                    text
+                    @click="
+                      deleteTile({
+                        tileId: tile.tile_id,
+                      })
+                    "
+                  >
+                    削除する
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-app-bar>
           <v-container>
             <draggable group="all-tasks" :list="tile.cards">
@@ -74,25 +128,26 @@
                       class="ma-2"
                       icon
                       @click="
-                      showCard({
-                        cardId: card.card_id,
-                        cardName: card.name,
-                        tileId: tile.tile_id,
-                        indicator: card.indicator,
-                      })
-                    "
+                        showCard({
+                          cardId: card.card_id,
+                          cardName: card.name,
+                          tileId: tile.tile_id,
+                          indicator: card.indicator,
+                        })
+                      "
                     >
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                   </template>
+
                   <v-btn
                     icon
                     @click="
-                    deleteCard({
-                      tileId: tile.tile_id,
-                      cardId: card.card_id,
-                    })
-                  "
+                      deleteCard({
+                        tileId: tile.tile_id,
+                        cardId: card.card_id,
+                      })
+                    "
                   >
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
@@ -105,21 +160,41 @@
       </draggable>
       <!-- リスト追加 -->
       <v-form>
-        <v-text-field v-model="newTile.name" label="+ リストを追加" outlined color="green" class="shrink"></v-text-field>
-        <v-btn color="green lighten-2" dark class="ml-2" @click="addTile">リストを追加</v-btn>
+        <v-text-field
+          v-model="newTile.name"
+          label="+ リストを追加"
+          outlined
+          color="green"
+          class="shrink"
+        ></v-text-field>
+        <v-btn color="green lighten-2" dark class="ml-2" @click="addTile"
+          >リストを追加</v-btn
+        >
       </v-form>
     </v-container>
 
     <!-- リスト名変更 -->
     <v-form v-show="tileShow">
-      <v-text-field label="リスト名を入力" color="grey" v-model="targetTile.name"></v-text-field>
-      <v-btn color="green lighten-2" dark class="ml-2" @click="editTile">リスト名を変更</v-btn>
+      <v-text-field
+        label="リスト名を入力"
+        color="grey"
+        v-model="targetTile.name"
+      ></v-text-field>
+      <v-btn color="green lighten-2" dark class="ml-2" @click="editTile"
+        >リスト名を変更</v-btn
+      >
     </v-form>
 
     <!-- カード名変更 -->
     <v-form v-show="cardShow">
-      <v-text-field label="カード名を入力" color="grey" v-model="targetCard.name"></v-text-field>
-      <v-btn color="green lighten-2" dark class="ml-2" @click="editCard">カード名を変更</v-btn>
+      <v-text-field
+        label="カード名を入力"
+        color="grey"
+        v-model="targetCard.name"
+      ></v-text-field>
+      <v-btn color="green lighten-2" dark class="ml-2" @click="editCard"
+        >カード名を変更</v-btn
+      >
     </v-form>
   </v-app>
 </template>
@@ -149,6 +224,8 @@ export default {
       newCard: {
         name: "new card",
       },
+      deleteBoardDialog: false,
+      deleteTileDialog: false,
     };
   },
   // props: {
